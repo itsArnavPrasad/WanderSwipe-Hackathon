@@ -56,7 +56,7 @@ export const StatsPanel = () => {
   };
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="sync">
       {showStatsPanel ? (
         <>
           <motion.div
@@ -77,7 +77,8 @@ export const StatsPanel = () => {
             transition={{ 
               type: 'spring',
               stiffness: 400,
-              damping: 40
+              damping: 40,
+              duration: 0.2
             }}
           >
             <div className="sticky top-0 z-10 bg-white dark:bg-gray-800 p-4 border-b border-gray-200 dark:border-gray-700">
@@ -190,7 +191,7 @@ export const StatsPanel = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 1 }}
                   className="fixed inset-0 z-60 bg-black/60 backdrop-blur-sm"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -258,10 +259,10 @@ export const StatsPanel = () => {
             likedCards.length > 0 ? 'animate-pulse' : ''
           )}
           whileHover={{ x: -8, scale: 1.05 }}
-          initial={{ x: -8, scale: 1 }}
-          animate={{ x: -8, scale: 1 }}
-          exit={{ x: 4, scale: 0.95 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 40 }}
+          initial={{ x: -8, scale: 1, opacity: 0 }}
+          animate={{ x: -8, scale: 1, opacity: 1 }}
+          exit={{ x: 4, scale: 0.95, opacity: 0 }}
+          transition={{ duration: 0.2 }}
           aria-label="Show your travel board"
         >
           <div className="flex flex-col items-center">
