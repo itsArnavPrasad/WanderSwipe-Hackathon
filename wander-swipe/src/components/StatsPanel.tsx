@@ -216,7 +216,7 @@ export const StatsPanel = () => {
                 <motion.div
                   key="expanded-card"
                   layoutId={`card-${expandedCard}`}
-                  className="fixed z-70 top-[25%] transform -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-2xl h-[600px] rounded-2xl overflow-hidden shadow-2xl"
+                  className="fixed z-70 top-[25%] transform -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-2xl h-[600px] rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-800"
                   initial={{ opacity: 0.8, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.5 }}
