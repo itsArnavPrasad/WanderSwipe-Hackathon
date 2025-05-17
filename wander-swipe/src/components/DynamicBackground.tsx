@@ -81,7 +81,7 @@ export const DynamicBackground: React.FC<{ children: React.ReactNode }> = ({ chi
       
       {/* Wonders of the world background image */}
       <div 
-        className="absolute inset-0 bg-center bg-no-repeat bg-contain pointer-events-none"
+        className="absolute inset-0 bg-center bg-no-repeat pointer-events-none"
         style={{
           backgroundImage: 'url(/bg-wonders.png)',
           backgroundColor: wondersColor,
@@ -89,7 +89,12 @@ export const DynamicBackground: React.FC<{ children: React.ReactNode }> = ({ chi
           opacity: theme === 'dark' ? 0.7 : 0.4,
           mixBlendMode: theme === 'dark' ? 'color-dodge' : 'soft-light',
           WebkitMaskImage: theme === 'dark' ? 'linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,1))' : 'none',
-          maskImage: theme === 'dark' ? 'linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,1))' : 'none'
+          maskImage: theme === 'dark' ? 'linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,1))' : 'none',
+          minWidth: '1280px',
+          width: '100%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          backgroundSize: 'contain'
         }}
       />
       
