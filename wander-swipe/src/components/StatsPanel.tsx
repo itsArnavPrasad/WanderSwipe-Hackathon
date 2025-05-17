@@ -232,12 +232,11 @@ export const StatsPanel = () => {
                     if (!card) return null;
                     return (
                       <div 
-                        className="w-full h-full relative bg-cover bg-center"
+                        className="relative w-full h-full bg-cover bg-center"
                         style={{ backgroundImage: `url(${card.image})` }}
-                        onClick={(e) => e.stopPropagation()}
                       >
-                        <div className="card-overlay absolute inset-0 rounded-2xl"></div>
-                        <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                        <div className="card-overlay absolute -inset-[3px] rounded-2xl bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                        <div className="absolute inset-x-0 bottom-0 p-8 text-white">
                           <div className="mb-3 flex flex-wrap">
                             {card.tags.map((tag) => (
                               <Tag key={tag} label={tag} />

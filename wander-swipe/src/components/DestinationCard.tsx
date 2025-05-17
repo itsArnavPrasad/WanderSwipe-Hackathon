@@ -132,7 +132,7 @@ export const DestinationCard = ({ destination, onVote }: DestinationCardProps) =
           className="relative w-full h-full bg-cover bg-center"
           style={{ backgroundImage: `url(${destination.image})` }}
         >
-          <div className="card-overlay absolute inset-0 rounded-2xl bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+          <div className="card-overlay absolute -inset-[3px] rounded-2xl bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
           <div className="absolute inset-x-0 bottom-0 p-6 text-white">
             <div className="mb-3 flex flex-wrap">
               {destination.tags.map((tag) => (

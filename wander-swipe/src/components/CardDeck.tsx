@@ -84,7 +84,7 @@ export const CardDeck: React.FC<CardDeckProps> = ({ destinations }) => {
                     style={{ backgroundImage: `url(${destination.image})` }}
                   >
                     {/* Add proper rounded overlay to fix sharp edges */}
-                    <div className="absolute inset-0 rounded-2xl card-overlay"></div>
+                    <div className="absolute -inset-[3px] rounded-2xl card-overlay"></div>
                   </div>
                 )}
               </motion.div>
