@@ -68,7 +68,7 @@
     "id": "9",
     "name": "Great Barrier Reef",
     "country": "Australia",
-    "image": "https://images.unsplash.com/photo-1618664972395-edb9b564be7b?q=80&w=1000",
+    "image": "https://images.unsplash.com/photo-1587139223877-04cb899fa3e8?q=80&w=1000",
     "tags": ["Ocean", "Nature", "Diving"],
     "description": "World's largest coral reef system with incredible marine diversity."
   },
@@ -76,7 +76,7 @@
     "id": "10",
     "name": "Marrakech",
     "country": "Morocco",
-    "image": "https://images.unsplash.com/photo-1560505045-8d6db0f76da2?q=80&w=1000",
+    "image": "https://images.unsplash.com/photo-1597212618440-806262de4f6b?q=80&w=1000",
     "tags": ["Cultural", "Market", "Historic"],
     "description": "Vibrant souks and palaces bursting with color in this ancient city."
   },
@@ -84,7 +84,7 @@
     "id": "11",
     "name": "Reykjavik",
     "country": "Iceland",
-    "image": "https://images.unsplash.com/photo-1490929937514-2d4d17eb9c96?q=80&w=1000",
+    "image": "https://plus.unsplash.com/premium_photo-1661962984700-16b03ecda58a?q=80&w=1000",
     "tags": ["Nature", "Northern Lights", "Adventure"],
     "description": "Gateway to Iceland's waterfalls, geysers, and the spectacular aurora borealis."
   },
@@ -92,7 +92,7 @@
     "id": "12",
     "name": "Petra",
     "country": "Jordan",
-    "image": "https://images.unsplash.com/photo-1554356877-f4861c215561?q=80&w=1000",
+    "image": "https://images.unsplash.com/photo-1615811648503-479d06197ff3?q=80&w=1000",
     "tags": ["Ancient", "Historic", "Desert"],
     "description": "Rose-colored ancient city carved into sandstone cliffs in the desert."
   },
@@ -116,7 +116,7 @@
     "id": "15",
     "name": "Prague",
     "country": "Czech Republic",
-    "image": "https://images.unsplash.com/photo-1504197832061-98356e3dcdcf?q=80&w=1000",
+    "image": "https://images.unsplash.com/photo-1519677100203-a0e668c92439?q=80&w=1000",
     "tags": ["City", "Historic", "Architecture"],
     "description": "Fairy-tale architecture with its medieval Old Town and castles."
   },
@@ -132,7 +132,7 @@
     "id": "17",
     "name": "Angkor Wat",
     "country": "Cambodia",
-    "image": "https://images.unsplash.com/photo-1510641159137-363c580344b2?q=80&w=1000",
+    "image": "https://images.unsplash.com/photo-1599283787923-51b965a58b05?q=80&w=1000",
     "tags": ["Temple", "Ancient", "Historic"],
     "description": "Massive stone temples adorned with intricate carvings from the ancient Khmer Empire."
   },
@@ -164,7 +164,7 @@
     "id": "21",
     "name": "Amalfi Coast",
     "country": "Italy",
-    "image": "https://images.unsplash.com/photo-1535391879653-792856185;901?q=80&w=1000",
+    "image": "https://images.unsplash.com/photo-1533656338503-b22f63e96cd8?q=80&w=1000",
     "tags": ["Coastal", "Romantic", "Scenic"],
     "description": "Dramatic cliffside villages overlooking the turquoise Mediterranean Sea."
   },
@@ -172,7 +172,7 @@
     "id": "22",
     "name": "Grand Canyon",
     "country": "USA",
-    "image": "https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?q=80&w=1000",
+    "image": "https://images.unsplash.com/photo-1615551043360-33de8b5f410c?q=80&w=1000",
     "tags": ["Nature", "Desert", "Hiking"],
     "description": "Vast and majestic natural wonder carved by the Colorado River."
   },
@@ -180,7 +180,7 @@
     "id": "23",
     "name": "Edinburgh",
     "country": "Scotland",
-    "image": "https://images.unsplash.com/photo-1563361443-6db5e406b905?q=80&w=1000",
+    "image": "https://images.unsplash.com/photo-1506377585622-bedcbb027afc?q=80&w=1000",
     "tags": ["Historic", "City", "Cultural"],
     "description": "Medieval old town and castle perched on volcanic rock in Scotland's capital."
   },
@@ -196,7 +196,7 @@
     "id": "25",
     "name": "Dubrovnik",
     "country": "Croatia",
-    "image": "https://images.unsplash.com/photo-1555990633-1a8b763a4282?q=80&w=1000",
+    "image": "https://images.unsplash.com/photo-1626699748984-47d6942751ca?q=80&w=1000",
     "tags": ["Coastal", "Historic", "City"],
     "description": "Medieval walled city jutting out into the azure waters of the Adriatic Sea."
   },
@@ -204,7 +204,7 @@
     "id": "26",
     "name": "Queenstown",
     "country": "New Zealand",
-    "image": "https://images.unsplash.com/photo-1543877347-da3e7ff4d04b?q=80&w=1000",
+    "image": "https://images.unsplash.com/photo-1512017615494-fdf6146235ff?q=80&w=1000",
     "tags": ["Adventure", "Mountain", "Nature"],
     "description": "Adrenaline capital surrounded by majestic mountains and crystal-clear Lake Wakatipu."
   },
@@ -220,7 +220,7 @@
     "id": "28",
     "name": "Napa Valley",
     "country": "USA",
-    "image": "https://images.unsplash.com/photo-1572913017567-02f0b3f4b70c?q=80&w=1000",
+    "image": "https://images.unsplash.com/photo-1627935563301-3ab81beb385f?q=80&w=1000",
     "tags": ["Wine", "Culinary", "Scenic"],
     "description": "Rolling vineyards and world-class wineries in California's premier wine region."
   },
@@ -228,7 +228,7 @@
     "id": "29",
     "name": "Cappadocia",
     "country": "Turkey",
-    "image": "https://images.unsplash.com/photo-1539064360225-be12346a2bc4?q=80&w=1000",
+    "image": "https://images.unsplash.com/photo-1604156789095-3348604c0f43?q=80&w=1000",
     "tags": ["Unique", "Historic", "Adventure"],
     "description": "Surreal landscape of fairy chimneys and hot air balloons at sunrise."
   },
