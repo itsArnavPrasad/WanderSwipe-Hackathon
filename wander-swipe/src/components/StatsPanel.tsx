@@ -231,7 +231,10 @@ export const StatsPanel = () => {
                           <p className="body-text text-sm text-gray-100 max-w-md text-shadow-sm">{card.description}</p>
                         </div>
                         <button
-                          onClick={() => setExpandedCard(null)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setExpandedCard(null);
+                          }}
                           className="absolute top-4 right-4 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors"
                         >
                           <X className="w-5 h-5 text-white" />
