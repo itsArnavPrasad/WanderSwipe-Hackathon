@@ -5,10 +5,25 @@ import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Heart, ChevronRight, XCircle } from 'lucide-react';
 
+// Helper function to manage body scroll
+const toggleBodyScroll = (disable: boolean) => {
+  if (disable) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+};
+
 export const StatsPanel = () => {
   const { likedCards, tagCounts, showStatsPanel, toggleStatsPanel, removeLikedCard } = useDestinations();
   const panelRef = React.useRef<HTMLDivElement>(null);
   const [expandedCard, setExpandedCard] = React.useState<string | null>(null);
+
+  // Manage body scroll when panel or expanded card is open
+  React.useEffect(() => {
+    toggleBodyScroll(showStatsPanel || expandedCard !== null);
+    return () => toggleBodyScroll(false);
+  }, [showStatsPanel, expandedCard]);
 
   // Handle escape key
   React.useEffect(() => {
@@ -70,7 +85,7 @@ export const StatsPanel = () => {
           <motion.div 
             key="panel"
             ref={panelRef}
-            className="fixed top-0 right-0 bottom-0 z-50 w-80 max-w-[90vw] overflow-y-auto bg-white dark:bg-gray-800 shadow-xl border-l border-gray-200 dark:border-gray-700"
+            className="fixed top-0 right-0 bottom-0 z-50 w-80 max-w-[90vw] bg-white dark:bg-gray-800 shadow-xl border-l border-gray-200 dark:border-gray-700 flex flex-col"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -81,7 +96,7 @@ export const StatsPanel = () => {
               duration: 0.2
             }}
           >
-            <div className="sticky top-0 z-10 bg-white dark:bg-gray-800 p-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="sticky top-0 z-10 bg-white dark:bg-gray-800 p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
               <div className="flex justify-between items-center">
                 <h2 className="heading-text font-bold text-xl">Your Travel Board</h2>
                 <button 
@@ -97,7 +112,7 @@ export const StatsPanel = () => {
               </div>
             </div>
 
-            <div className="p-4">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden p-4">
               {likedCards.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
