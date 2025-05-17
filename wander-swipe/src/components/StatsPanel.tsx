@@ -9,8 +9,8 @@ export const StatsPanel = () => {
   const { likedCards, tagCounts, showStatsPanel, toggleStatsPanel, removeLikedCard } = useDestinations();
   const panelRef = React.useRef<HTMLDivElement>(null);
   const [expandedCard, setExpandedCard] = React.useState<string | null>(null);
-  const [hoveredCard, setHoveredCard] = React.useState<string | null>(null);
 
+  // Handle escape key
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && showStatsPanel) {
@@ -18,10 +18,32 @@ export const StatsPanel = () => {
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+    if (showStatsPanel) {
+      document.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [showStatsPanel, toggleStatsPanel]);
+
+  // Handle clicks outside the panel
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+        toggleStatsPanel();
+      }
     };
+
+    if (showStatsPanel) {
+      // Small delay to prevent immediate trigger
+      setTimeout(() => {
+        document.addEventListener('click', handleClickOutside);
+      }, 100);
+      
+      return () => {
+        document.removeEventListener('click', handleClickOutside);
+      };
+    }
   }, [showStatsPanel, toggleStatsPanel]);
 
   // Get top tags
@@ -33,59 +55,39 @@ export const StatsPanel = () => {
     setExpandedCard(expandedCard === cardId ? null : cardId);
   };
 
-  if (!showStatsPanel) {
-    return (
-      <motion.button
-        onClick={toggleStatsPanel}
-        className={cn(
-          'fixed top-1/2 -translate-y-1/2 right-0 z-50 w-12 h-20',
-          'rounded-l-xl bg-white dark:bg-gray-800 shadow-lg flex items-center justify-center',
-          'hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300',
-          'border-l border-t border-b border-gray-200 dark:border-gray-700',
-          likedCards.length > 0 ? 'animate-pulse' : ''
-        )}
-        whileHover={{ x: -8 }}
-        initial={false}
-        animate={{ x: 0 }}
-        aria-label="Show your travel board"
-      >
-        <div className="flex flex-col items-center">
-          <Heart className={cn(
-            'w-5 h-5 mb-1',
-            likedCards.length > 0 ? 'text-pink-500' : 'text-gray-400'
-          )} />
-          <span className="font-bold text-sm">{likedCards.length}</span>
-          <ChevronRight className="w-4 h-4 mt-1 text-gray-400" />
-        </div>
-      </motion.button>
-    );
-  }
-
   return (
-    <AnimatePresence>
-      {showStatsPanel && (
+    <AnimatePresence mode="wait">
+      {showStatsPanel ? (
         <>
           <motion.div
+            key="overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
             className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
-            onClick={toggleStatsPanel}
           />
           <motion.div 
+            key="panel"
             ref={panelRef}
             className="fixed top-0 right-0 bottom-0 z-50 w-80 max-w-[90vw] overflow-y-auto bg-white dark:bg-gray-800 shadow-xl border-l border-gray-200 dark:border-gray-700"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
-            exit={{ x: '100%' }} 
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            exit={{ x: '100%' }}
+            transition={{ 
+              type: 'spring',
+              stiffness: 400,
+              damping: 40
+            }}
           >
             <div className="sticky top-0 z-10 bg-white dark:bg-gray-800 p-4 border-b border-gray-200 dark:border-gray-700">
               <div className="flex justify-between items-center">
                 <h2 className="heading-text font-bold text-xl">Your Travel Board</h2>
                 <button 
-                  onClick={toggleStatsPanel}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleStatsPanel();
+                  }}
                   className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                   aria-label="Close panel"
                 >
@@ -141,8 +143,6 @@ export const StatsPanel = () => {
                           'hover:border-gray-300 dark:hover:border-gray-600 transition-colors duration-300',
                           'hover:shadow-md'
                         )}
-                        onMouseEnter={() => setHoveredCard(card.id)}
-                        onMouseLeave={() => setHoveredCard(null)}
                         onClick={() => setExpandedCard(card.id)}
                       >
                         <div className="flex items-start cursor-pointer">
@@ -173,21 +173,6 @@ export const StatsPanel = () => {
                             </div>
                           </div>
                         </div>
-                        <AnimatePresence>
-                          {hoveredCard === card.id && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                              className="px-3 pb-3 bg-gray-50/80 dark:bg-gray-700/50 border-t border-gray-100 dark:border-gray-600"
-                            >
-                              <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-2">
-                                {card.description}
-                              </p>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
                       </motion.div>
                     ))}
                   </div>
@@ -197,17 +182,20 @@ export const StatsPanel = () => {
           </motion.div>
 
           {/* Expanded Card Overlay */}
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
             {expandedCard && (
               <>
                 <motion.div
+                  key="expanded-overlay"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
                   className="fixed inset-0 z-60 bg-black/60 backdrop-blur-sm"
                   onClick={() => setExpandedCard(null)}
                 />
                 <motion.div
+                  key="expanded-card"
                   layoutId={`card-${expandedCard}`}
                   className="fixed z-70 top-[25%] transform -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-2xl h-[600px] rounded-2xl overflow-hidden shadow-2xl"
                   initial={{ opacity: 0.8, scale: 0.8 }}
@@ -215,8 +203,8 @@ export const StatsPanel = () => {
                   exit={{ opacity: 0, scale: 0.5 }}
                   transition={{ 
                     type: "spring",
-                    damping: 20,
-                    stiffness: 300
+                    damping: 30,
+                    stiffness: 400
                   }}
                 >
                   {(() => {
@@ -252,6 +240,36 @@ export const StatsPanel = () => {
             )}
           </AnimatePresence>
         </>
+      ) : (
+        <motion.button
+          key="toggle-button"
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleStatsPanel();
+          }}
+          className={cn(
+            'fixed top-1/2 -translate-y-1/2 right-[-8px] z-50 w-[56px] h-20',
+            'rounded-l-xl bg-white dark:bg-gray-800 shadow-lg flex items-center justify-center',
+            'hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300',
+            'border-l border-t border-b border-gray-200 dark:border-gray-700',
+            likedCards.length > 0 ? 'animate-pulse' : ''
+          )}
+          whileHover={{ x: -8, scale: 1.05 }}
+          initial={{ x: -8, scale: 1 }}
+          animate={{ x: -8, scale: 1 }}
+          exit={{ x: 4, scale: 0.95 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 40 }}
+          aria-label="Show your travel board"
+        >
+          <div className="flex flex-col items-center">
+            <Heart className={cn(
+              'w-5 h-5 mb-1',
+              likedCards.length > 0 ? 'text-pink-500' : 'text-gray-400'
+            )} />
+            <span className="font-bold text-sm">{likedCards.length}</span>
+            <ChevronRight className="w-4 h-4 mt-1 text-gray-400" />
+          </div>
+        </motion.button>
       )}
     </AnimatePresence>
   );

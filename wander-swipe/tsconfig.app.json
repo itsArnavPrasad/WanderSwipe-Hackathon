@@ -21,6 +21,9 @@
     "noImplicitAny": false,
     "noFallthroughCasesInSwitch": false,
 
+    /* React types */
+    "types": ["react", "react-dom"],
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

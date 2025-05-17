@@ -1,26 +1,28 @@
-
-import React, { useState, useRef, useEffect } from 'react';
+import * as React from 'react';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useDestinations } from '../contexts/DestinationContext';
 import { Destination } from '../types';
 import { Tag } from './Tag';
 import { cn } from '@/lib/utils';
+import { useSound } from '../hooks/useSound';
 
 interface DestinationCardProps {
   destination: Destination;
   onVote: (direction: 'right' | 'left') => void;
 }
 
-export const DestinationCard: React.FC<DestinationCardProps> = ({ destination, onVote }) => {
-  const [exitX, setExitX] = useState<number>(0);
-  const [showHeartAnimation, setShowHeartAnimation] = useState(false);
+export const DestinationCard = ({ destination, onVote }: DestinationCardProps) => {
+  const [exitX, setExitX] = React.useState<number>(0);
+  const [isSwipeEnabled, setIsSwipeEnabled] = React.useState(true);
   const { addLikedCard } = useDestinations();
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = React.useRef<HTMLDivElement>(null);
+  const { play: playLikeSound } = useSound('/sounds/swipe-right.mp3');
+  const { play: playDislikeSound } = useSound('/sounds/swipe-left.mp3');
   
   // Parallax effect state
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
-  const [isHovering, setIsHovering] = useState(false);
+  const [rotateX, setRotateX] = React.useState(0);
+  const [rotateY, setRotateY] = React.useState(0);
+  const [isHovering, setIsHovering] = React.useState(false);
   
   // Drag animation with Framer Motion
   const x = useMotionValue(0);
@@ -28,14 +30,21 @@ export const DestinationCard: React.FC<DestinationCardProps> = ({ destination, o
   const opacity = useTransform(x, [-200, -120, 0, 120, 200], [0, 0.3, 1, 0.3, 0]);
   
   const handleDragEnd = (event: any, info: any) => {
+    if (!isSwipeEnabled) return;
+    
     if (info.offset.x > 100) {
       setExitX(200);
-      setShowHeartAnimation(true);
       addLikedCard(destination);
+      playLikeSound();
       onVote('right');
+      setIsSwipeEnabled(false);
+      setTimeout(() => setIsSwipeEnabled(true), 1000);
     } else if (info.offset.x < -100) {
       setExitX(-200);
+      playDislikeSound();
       onVote('left');
+      setIsSwipeEnabled(false);
+      setTimeout(() => setIsSwipeEnabled(true), 1000);
     }
   };
   
@@ -67,82 +76,75 @@ export const DestinationCard: React.FC<DestinationCardProps> = ({ destination, o
   };
   
   // Keyboard navigation
-  useEffect(() => {
+  React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isSwipeEnabled) return;
+      
       if (e.key === 'ArrowRight') {
         setExitX(200);
-        setShowHeartAnimation(true);
         addLikedCard(destination);
+        playLikeSound();
         onVote('right');
+        setIsSwipeEnabled(false);
+        setTimeout(() => setIsSwipeEnabled(true), 1000);
       } else if (e.key === 'ArrowLeft') {
         setExitX(-200);
+        playDislikeSound();
         onVote('left');
+        setIsSwipeEnabled(false);
+        setTimeout(() => setIsSwipeEnabled(true), 1000);
       }
     };
     
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [destination, addLikedCard, onVote]);
+  }, [destination, addLikedCard, onVote, playLikeSound, playDislikeSound, isSwipeEnabled]);
   
   return (
-    <>
-      {showHeartAnimation && (
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1.5, opacity: 1 }}
-          exit={{ scale: 0, opacity: 0 }}
-          transition={{ duration: 0.7 }}
-        >
-          <div className="text-7xl">💖</div>
-        </motion.div>
-      )}
-      
-      <motion.div
-        ref={cardRef}
-        className="absolute inset-0 w-full h-full"
-        drag="x"
-        dragConstraints={{ left: 0, right: 0 }}
-        onDragEnd={handleDragEnd}
+    <motion.div
+      ref={cardRef}
+      className="absolute inset-0 w-full h-full"
+      drag={isSwipeEnabled ? "x" : false}
+      dragConstraints={{ left: 0, right: 0 }}
+      onDragEnd={handleDragEnd}
+      style={{
+        x,
+        rotate,
+        opacity,
+      }}
+      animate={{ x: exitX }}
+      transition={{ duration: 0.2 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
+    >
+      <div 
+        className={cn(
+          "parallax-card w-full h-full rounded-2xl overflow-hidden shadow-2xl",
+          "border-4 border-white dark:border-gray-800"
+        )}
         style={{
-          x,
-          rotate,
-          opacity,
+          transform: `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${isHovering ? 1.02 : 1})`,
+          boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
         }}
-        animate={{ x: exitX }}
-        transition={{ duration: 0.2 }}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        onMouseEnter={handleMouseEnter}
       >
         <div 
-          className={cn(
-            "parallax-card w-full h-full rounded-2xl overflow-hidden shadow-2xl",
-            "border-4 border-white dark:border-gray-800"
-          )}
-          style={{
-            transform: `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${isHovering ? 1.02 : 1})`,
-            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-          }}
+          className="relative w-full h-full bg-cover bg-center"
+          style={{ backgroundImage: `url(${destination.image})` }}
         >
-          <div 
-            className="relative w-full h-full bg-cover bg-center"
-            style={{ backgroundImage: `url(${destination.image})` }}
-          >
-            <div className="card-overlay absolute inset-0 rounded-2xl bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-            <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-              <div className="mb-3 flex flex-wrap">
-                {destination.tags.map((tag) => (
-                  <Tag key={tag} label={tag} />
-                ))}
-              </div>
-              <h2 className="heading-text text-3xl md:text-4xl font-bold mb-1 text-shadow-sm">{destination.name}</h2>
-              <p className="body-text text-gray-200 mb-3 text-shadow-sm">{destination.country}</p>
-              <p className="body-text text-sm text-gray-100 max-w-md text-shadow-sm">{destination.description}</p>
+          <div className="card-overlay absolute inset-0 rounded-2xl bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+          <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+            <div className="mb-3 flex flex-wrap">
+              {destination.tags.map((tag) => (
+                <Tag key={tag} label={tag} />
+              ))}
             </div>
+            <h2 className="heading-text text-3xl md:text-4xl font-bold mb-1 text-shadow-sm">{destination.name}</h2>
+            <p className="body-text text-gray-200 mb-3 text-shadow-sm">{destination.country}</p>
+            <p className="body-text text-sm text-gray-100 max-w-md text-shadow-sm">{destination.description}</p>
           </div>
         </div>
-      </motion.div>
-    </>
+      </div>
+    </motion.div>
   );
 };
