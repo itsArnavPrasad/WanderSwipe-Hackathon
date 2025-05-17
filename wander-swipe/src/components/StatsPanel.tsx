@@ -1,17 +1,17 @@
-
-import React, { useRef, useEffect, useState } from 'react';
+import * as React from 'react';
 import { useDestinations } from '../contexts/DestinationContext';
 import { Tag } from './Tag';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Heart, ChevronRight } from 'lucide-react';
+import { X, Heart, ChevronRight, XCircle } from 'lucide-react';
 
 export const StatsPanel = () => {
-  const { likedCards, tagCounts, showStatsPanel, toggleStatsPanel } = useDestinations();
-  const panelRef = useRef<HTMLDivElement>(null);
-  const [expandedCard, setExpandedCard] = useState<string | null>(null);
+  const { likedCards, tagCounts, showStatsPanel, toggleStatsPanel, removeLikedCard } = useDestinations();
+  const panelRef = React.useRef<HTMLDivElement>(null);
+  const [expandedCard, setExpandedCard] = React.useState<string | null>(null);
+  const [hoveredCard, setHoveredCard] = React.useState<string | null>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && showStatsPanel) {
         toggleStatsPanel();
@@ -128,34 +128,66 @@ export const StatsPanel = () => {
                   </div>
 
                   <h3 className="heading-text font-medium mb-3">Liked Destinations ({likedCards.length})</h3>
-                  <div className="grid grid-cols-1 gap-3">
+                  <div className="space-y-3">
                     {likedCards.map((card, index) => (
-                      <motion.div 
+                      <motion.div
                         key={card.id}
-                        className="flex bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.05 }}
-                        whileHover={{ scale: 1.02 }}
-                        onClick={() => handleCardClick(card.id)}
-                        layoutId={`card-${card.id}`}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ delay: index * 0.1 }}
+                        className={cn(
+                          'relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700',
+                          'hover:border-gray-300 dark:hover:border-gray-600 transition-colors duration-300',
+                          'hover:shadow-md'
+                        )}
+                        onMouseEnter={() => setHoveredCard(card.id)}
+                        onMouseLeave={() => setHoveredCard(null)}
+                        onClick={() => setExpandedCard(card.id)}
                       >
-                        <div 
-                          className="w-20 h-20 bg-cover bg-center"
-                          style={{ backgroundImage: `url(${card.image})` }}
-                        />
-                        <div className="p-3 flex-1">
-                          <h4 className="heading-text font-medium text-sm">{card.name}</h4>
-                          <p className="body-text text-xs text-gray-600 dark:text-gray-300">{card.country}</p>
-                          <div className="mt-1 flex flex-wrap">
-                            {card.tags.slice(0, 2).map((tag) => (
-                              <Tag key={tag} label={tag} className="text-[10px] py-0 px-2" />
-                            ))}
-                            {card.tags.length > 2 && (
-                              <span className="text-[10px] text-gray-500 ml-1">+{card.tags.length - 2}</span>
-                            )}
+                        <div className="flex items-start cursor-pointer">
+                          <div 
+                            className="w-24 h-24 flex-shrink-0 bg-cover bg-center rounded-l-lg"
+                            style={{ backgroundImage: `url(${card.image})` }}
+                          />
+                          <div className="flex-1 min-w-0 p-3">
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1 min-w-0">
+                                <h4 className="heading-text font-medium text-gray-900 dark:text-white truncate">
+                                  {card.name}
+                                </h4>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                  {card.country}
+                                </p>
+                              </div>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  removeLikedCard(card.id);
+                                }}
+                                className="opacity-0 group-hover:opacity-100 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
+                                aria-label={`Remove ${card.name} from liked destinations`}
+                              >
+                                <XCircle className="w-5 h-5 text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400" />
+                              </button>
+                            </div>
                           </div>
                         </div>
+                        <AnimatePresence>
+                          {hoveredCard === card.id && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                              className="px-3 pb-3 bg-gray-50/80 dark:bg-gray-700/50 border-t border-gray-100 dark:border-gray-600"
+                            >
+                              <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-2">
+                                {card.description}
+                              </p>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </motion.div>
                     ))}
                   </div>
@@ -177,7 +209,7 @@ export const StatsPanel = () => {
                 />
                 <motion.div
                   layoutId={`card-${expandedCard}`}
-                  className="fixed z-70 top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2 w-[85vw] max-w-md h-[500px] rounded-2xl overflow-hidden shadow-2xl"
+                  className="fixed z-70 top-[25%] transform -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-2xl h-[600px] rounded-2xl overflow-hidden shadow-2xl"
                   initial={{ opacity: 0.8, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.5 }}

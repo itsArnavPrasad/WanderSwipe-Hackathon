@@ -1,5 +1,4 @@
-
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import { createContext, useContext, useState, type ReactNode } from 'react';
 import { Destination } from '../types';
 
 type DestinationContextType = {
@@ -8,6 +7,7 @@ type DestinationContextType = {
   showThemesAnimation: boolean;
   showStatsPanel: boolean;
   addLikedCard: (destination: Destination) => void;
+  removeLikedCard: (destinationId: string) => void;
   toggleStatsPanel: () => void;
   dismissThemesAnimation: () => void;
 };
@@ -43,6 +43,24 @@ export const DestinationProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const removeLikedCard = (destinationId: string) => {
+    const destinationToRemove = likedCards.find(card => card.id === destinationId);
+    if (destinationToRemove) {
+      // Remove the card
+      setLikedCards((prev) => prev.filter(card => card.id !== destinationId));
+      
+      // Update tag counts
+      const newTagCounts = { ...tagCounts };
+      destinationToRemove.tags.forEach((tag) => {
+        newTagCounts[tag] = Math.max(0, (newTagCounts[tag] || 0) - 1);
+        if (newTagCounts[tag] === 0) {
+          delete newTagCounts[tag];
+        }
+      });
+      setTagCounts(newTagCounts);
+    }
+  };
+
   const toggleStatsPanel = () => {
     setShowStatsPanel((prev) => !prev);
   };
@@ -59,6 +77,7 @@ export const DestinationProvider = ({ children }: { children: ReactNode }) => {
         showThemesAnimation,
         showStatsPanel,
         addLikedCard,
+        removeLikedCard,
         toggleStatsPanel,
         dismissThemesAnimation
       }}
@@ -68,9 +87,9 @@ export const DestinationProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useDestinations = (): DestinationContextType => {
+export const useDestinations = () => {
   const context = useContext(DestinationContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useDestinations must be used within a DestinationProvider');
   }
   return context;
