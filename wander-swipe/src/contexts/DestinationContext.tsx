@@ -32,8 +32,8 @@ export const DestinationProvider = ({ children }: { children: ReactNode }) => {
       });
       setTagCounts(newTagCounts);
       
-      // Show themes animation after 5 liked cards
-      if (likedCards.length + 1 === 5) {
+      // Show themes animation after every 5 likes
+      if ((likedCards.length + 1) % 5 === 0) {
         setShowThemesAnimation(true);
         // Auto-dismiss after 4 seconds
         setTimeout(() => {
