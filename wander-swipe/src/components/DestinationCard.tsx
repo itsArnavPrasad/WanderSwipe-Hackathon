@@ -26,21 +26,21 @@ export const DestinationCard = ({ destination, onVote }: DestinationCardProps) =
   
   // Drag animation with Framer Motion
   const x = useMotionValue(0);
-  const rotate = useTransform(x, [-200, 200], [-30, 30]);
-  const opacity = useTransform(x, [-200, -120, 0, 120, 200], [0, 0.3, 1, 0.3, 0]);
+  const rotate = useTransform(x, [-300, 300], [-45, 45]);
+  const opacity = useTransform(x, [-300, -200, 0, 200, 300], [0, 1, 1, 1, 0]);
   
   const handleDragEnd = (event: any, info: any) => {
     if (!isSwipeEnabled) return;
     
-    if (info.offset.x > 100) {
-      setExitX(200);
+    if (info.offset.x > 150) {
+      setExitX(300);
       addLikedCard(destination);
       playLikeSound();
       onVote('right');
       setIsSwipeEnabled(false);
       setTimeout(() => setIsSwipeEnabled(true), 1000);
-    } else if (info.offset.x < -100) {
-      setExitX(-200);
+    } else if (info.offset.x < -150) {
+      setExitX(-300);
       playDislikeSound();
       onVote('left');
       setIsSwipeEnabled(false);
@@ -81,14 +81,14 @@ export const DestinationCard = ({ destination, onVote }: DestinationCardProps) =
       if (!isSwipeEnabled) return;
       
       if (e.key === 'ArrowRight') {
-        setExitX(200);
+        setExitX(300);
         addLikedCard(destination);
         playLikeSound();
         onVote('right');
         setIsSwipeEnabled(false);
         setTimeout(() => setIsSwipeEnabled(true), 1000);
       } else if (e.key === 'ArrowLeft') {
-        setExitX(-200);
+        setExitX(-300);
         playDislikeSound();
         onVote('left');
         setIsSwipeEnabled(false);
