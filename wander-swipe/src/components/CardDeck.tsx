@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { DestinationCard } from './DestinationCard';
 import { FinishCard } from './FinishCard';
@@ -48,7 +47,7 @@ export const CardDeck: React.FC<CardDeckProps> = ({ destinations }) => {
             
             // Generate random rotation angles for stack effect
             // More randomness for cards deeper in the stack
-            const randomRotation = index === 0 ? 0 : (Math.random() * 6 - 3) + (index % 2 === 0 ? -index : index);
+            const randomRotation = index === 0 ? 0 : (Math.random() * 20 - 9) + (index % 2 === 0 ? -index * 2 : index * 2);
             
             // Calculate stack effect properties
             const stackProps = {

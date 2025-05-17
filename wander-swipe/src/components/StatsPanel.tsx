@@ -191,7 +191,7 @@ export const StatsPanel = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 1 }}
+                  transition={{ duration: 0.15 }}
                   className="fixed inset-0 z-60 bg-black/60 backdrop-blur-sm"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -208,7 +208,8 @@ export const StatsPanel = () => {
                   transition={{ 
                     type: "spring",
                     damping: 30,
-                    stiffness: 400
+                    stiffness: 400,
+                    duration: 0.15
                   }}
                 >
                   {(() => {

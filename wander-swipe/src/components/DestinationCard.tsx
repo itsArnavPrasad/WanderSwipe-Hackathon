@@ -26,7 +26,7 @@ export const DestinationCard = ({ destination, onVote }: DestinationCardProps) =
   
   // Drag animation with Framer Motion
   const x = useMotionValue(0);
-  const rotate = useTransform(x, [-200, 200], [-20, 20]);
+  const rotate = useTransform(x, [-200, 200], [-30, 30]);
   const opacity = useTransform(x, [-200, -120, 0, 120, 200], [0, 0.3, 1, 0.3, 0]);
   
   const handleDragEnd = (event: any, info: any) => {
