@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useDestinations } from '../contexts/DestinationContext';
 import { motion } from 'framer-motion';

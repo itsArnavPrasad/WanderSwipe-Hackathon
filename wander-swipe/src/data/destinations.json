@@ -1,242 +1,243 @@
+
 [
-    {
-      "id": "1",
-      "name": "Santorini",
-      "country": "Greece",
-      "image": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1000",
-      "tags": ["Island", "Romantic", "Sunset"],
-      "description": "White-washed houses and golden-hour magic on this iconic Greek island."
-    },
-    {
-      "id": "2",
-      "name": "Kyoto",
-      "country": "Japan",
-      "image": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1000",
-      "tags": ["Cultural", "Temple", "Historic"],
-      "description": "Ancient temples and traditional Japanese gardens in the former imperial capital."
-    },
-    {
-      "id": "3",
-      "name": "Machu Picchu",
-      "country": "Peru",
-      "image": "https://images.unsplash.com/photo-1526392060635-9d6019884377?q=80&w=1000",
-      "tags": ["Ancient", "Mountain", "Adventure"],
-      "description": "Mystical Incan citadel nestled high in the Andes mountains."
-    },
-    {
-      "id": "4",
-      "name": "Bora Bora",
-      "country": "French Polynesia",
-      "image": "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?q=80&w=1000",
-      "tags": ["Island", "Beach", "Luxury"],
-      "description": "Crystal clear turquoise waters and overwater bungalows in paradise."
-    },
-    {
-      "id": "5",
-      "name": "Venice",
-      "country": "Italy",
-      "image": "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?q=80&w=1000",
-      "tags": ["Romantic", "Historic", "City"],
-      "description": "Enchanting canals and Renaissance architecture in the floating city."
-    },
-    {
-      "id": "6",
-      "name": "Swiss Alps",
-      "country": "Switzerland",
-      "image": "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?q=80&w=1000",
-      "tags": ["Mountain", "Snow", "Adventure"],
-      "description": "Breathtaking peaks, alpine villages, and world-class skiing."
-    },
-    {
-      "id": "7",
-      "name": "Serengeti",
-      "country": "Tanzania",
-      "image": "https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=1000",
-      "tags": ["Safari", "Wildlife", "Nature"],
-      "description": "Vast plains and incredible wildlife during the Great Migration."
-    },
-    {
-      "id": "8",
-      "name": "New York City",
-      "country": "USA",
-      "image": "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=1000",
-      "tags": ["City", "Urban", "Cultural"],
-      "description": "The iconic Big Apple with its towering skyscrapers and vibrant energy."
-    },
-    {
-      "id": "9",
-      "name": "Great Barrier Reef",
-      "country": "Australia",
-      "image": "https://images.unsplash.com/photo-1618664972395-edb9b564be7b?q=80&w=1000",
-      "tags": ["Ocean", "Nature", "Diving"],
-      "description": "World's largest coral reef system with incredible marine diversity."
-    },
-    {
-      "id": "10",
-      "name": "Marrakech",
-      "country": "Morocco",
-      "image": "https://images.unsplash.com/photo-1560505045-8d6db0f76da2?q=80&w=1000",
-      "tags": ["Cultural", "Market", "Historic"],
-      "description": "Vibrant souks and palaces bursting with color in this ancient city."
-    },
-    {
-      "id": "11",
-      "name": "Reykjavik",
-      "country": "Iceland",
-      "image": "https://images.unsplash.com/photo-1490929937514-2d4d17eb9c96?q=80&w=1000",
-      "tags": ["Nature", "Northern Lights", "Adventure"],
-      "description": "Gateway to Iceland's waterfalls, geysers, and the spectacular aurora borealis."
-    },
-    {
-      "id": "12",
-      "name": "Petra",
-      "country": "Jordan",
-      "image": "https://images.unsplash.com/photo-1554356877-f4861c215561?q=80&w=1000",
-      "tags": ["Ancient", "Historic", "Desert"],
-      "description": "Rose-colored ancient city carved into sandstone cliffs in the desert."
-    },
-    {
-      "id": "13",
-      "name": "Bali",
-      "country": "Indonesia",
-      "image": "https://images.unsplash.com/photo-1520962922320-2038eebab146?q=80&w=1000",
-      "tags": ["Island", "Cultural", "Beach"],
-      "description": "Island paradise with lush rice terraces, spiritual temples, and stunning beaches."
-    },
-    {
-      "id": "14",
-      "name": "Rio de Janeiro",
-      "country": "Brazil",
-      "image": "https://images.unsplash.com/photo-1516834611397-8d633eaec5d0?q=80&w=1000",
-      "tags": ["Beach", "City", "Cultural"],
-      "description": "Vibrant city with iconic beaches, samba, and the towering Christ the Redeemer statue."
-    },
-    {
-      "id": "15",
-      "name": "Prague",
-      "country": "Czech Republic",
-      "image": "https://images.unsplash.com/photo-1504197832061-98356e3dcdcf?q=80&w=1000",
-      "tags": ["City", "Historic", "Architecture"],
-      "description": "Fairy-tale architecture with its medieval Old Town and castles."
-    },
-    {
-      "id": "16",
-      "name": "Banff National Park",
-      "country": "Canada",
-      "image": "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?q=80&w=1000",
-      "tags": ["Mountain", "Lake", "Nature"],
-      "description": "Stunning turquoise lakes surrounded by snow-capped Rocky Mountains."
-    },
-    {
-      "id": "17",
-      "name": "Angkor Wat",
-      "country": "Cambodia",
-      "image": "https://images.unsplash.com/photo-1510641159137-363c580344b2?q=80&w=1000",
-      "tags": ["Temple", "Ancient", "Historic"],
-      "description": "Massive stone temples adorned with intricate carvings from the ancient Khmer Empire."
-    },
-    {
-      "id": "18",
-      "name": "Maldives",
-      "country": "Maldives",
-      "image": "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?q=80&w=1000",
-      "tags": ["Island", "Beach", "Luxury"],
-      "description": "Pristine white sandy beaches and private overwater villas in the Indian Ocean."
-    },
-    {
-      "id": "19",
-      "name": "Barcelona",
-      "country": "Spain",
-      "image": "https://images.unsplash.com/photo-1464790719320-516ecd75af6c?q=80&w=1000",
-      "tags": ["City", "Architecture", "Beach"],
-      "description": "Gaudi's fantastical architecture and Mediterranean beaches in this cosmopolitan Spanish city."
-    },
-    {
-      "id": "20",
-      "name": "Safari in Botswana",
-      "country": "Botswana",
-      "image": "https://images.unsplash.com/photo-1521651201144-634f700b36ef?q=80&w=1000",
-      "tags": ["Safari", "Wildlife", "Nature"],
-      "description": "Exclusive wildlife viewing in the pristine Okavango Delta."
-    },
-    {
-      "id": "21",
-      "name": "Amalfi Coast",
-      "country": "Italy",
-      "image": "https://images.unsplash.com/photo-1535391879653-792856185;901?q=80&w=1000",
-      "tags": ["Coastal", "Romantic", "Scenic"],
-      "description": "Dramatic cliffside villages overlooking the turquoise Mediterranean Sea."
-    },
-    {
-      "id": "22",
-      "name": "Grand Canyon",
-      "country": "USA",
-      "image": "https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?q=80&w=1000",
-      "tags": ["Nature", "Desert", "Hiking"],
-      "description": "Vast and majestic natural wonder carved by the Colorado River."
-    },
-    {
-      "id": "23",
-      "name": "Edinburgh",
-      "country": "Scotland",
-      "image": "https://images.unsplash.com/photo-1563361443-6db5e406b905?q=80&w=1000",
-      "tags": ["Historic", "City", "Cultural"],
-      "description": "Medieval old town and castle perched on volcanic rock in Scotland's capital."
-    },
-    {
-      "id": "24",
-      "name": "Ha Long Bay",
-      "country": "Vietnam",
-      "image": "https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=1000",
-      "tags": ["Nature", "Ocean", "Scenic"],
-      "description": "Emerald waters and thousands of towering limestone islands topped with rainforests."
-    },
-    {
-      "id": "25",
-      "name": "Dubrovnik",
-      "country": "Croatia",
-      "image": "https://images.unsplash.com/photo-1555990633-1a8b763a4282?q=80&w=1000",
-      "tags": ["Coastal", "Historic", "City"],
-      "description": "Medieval walled city jutting out into the azure waters of the Adriatic Sea."
-    },
-    {
-      "id": "26",
-      "name": "Queenstown",
-      "country": "New Zealand",
-      "image": "https://images.unsplash.com/photo-1543877347-da3e7ff4d04b?q=80&w=1000",
-      "tags": ["Adventure", "Mountain", "Nature"],
-      "description": "Adrenaline capital surrounded by majestic mountains and crystal-clear Lake Wakatipu."
-    },
-    {
-      "id": "27",
-      "name": "Paris",
-      "country": "France",
-      "image": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1000",
-      "tags": ["City", "Romantic", "Cultural"],
-      "description": "The City of Light with iconic landmarks, world-class cuisine, and artistic treasures."
-    },
-    {
-      "id": "28",
-      "name": "Napa Valley",
-      "country": "USA",
-      "image": "https://images.unsplash.com/photo-1572913017567-02f0b3f4b70c?q=80&w=1000",
-      "tags": ["Wine", "Culinary", "Scenic"],
-      "description": "Rolling vineyards and world-class wineries in California's premier wine region."
-    },
-    {
-      "id": "29",
-      "name": "Cappadocia",
-      "country": "Turkey",
-      "image": "https://images.unsplash.com/photo-1539064360225-be12346a2bc4?q=80&w=1000",
-      "tags": ["Unique", "Historic", "Adventure"],
-      "description": "Surreal landscape of fairy chimneys and hot air balloons at sunrise."
-    },
-    {
-      "id": "30",
-      "name": "Tokyo",
-      "country": "Japan",
-      "image": "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=1000",
-      "tags": ["City", "Modern", "Cultural"],
-      "description": "Ultra-modern city blending cutting-edge technology with ancient traditions."
-    }
-  ]
+  {
+    "id": "1",
+    "name": "Santorini",
+    "country": "Greece",
+    "image": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=1000",
+    "tags": ["Island", "Romantic", "Sunset"],
+    "description": "White-washed houses and golden-hour magic on this iconic Greek island."
+  },
+  {
+    "id": "2",
+    "name": "Kyoto",
+    "country": "Japan",
+    "image": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1000",
+    "tags": ["Cultural", "Temple", "Historic"],
+    "description": "Ancient temples and traditional Japanese gardens in the former imperial capital."
+  },
+  {
+    "id": "3",
+    "name": "Machu Picchu",
+    "country": "Peru",
+    "image": "https://images.unsplash.com/photo-1526392060635-9d6019884377?q=80&w=1000",
+    "tags": ["Ancient", "Mountain", "Adventure"],
+    "description": "Mystical Incan citadel nestled high in the Andes mountains."
+  },
+  {
+    "id": "4",
+    "name": "Bora Bora",
+    "country": "French Polynesia",
+    "image": "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?q=80&w=1000",
+    "tags": ["Island", "Beach", "Luxury"],
+    "description": "Crystal clear turquoise waters and overwater bungalows in paradise."
+  },
+  {
+    "id": "5",
+    "name": "Venice",
+    "country": "Italy",
+    "image": "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?q=80&w=1000",
+    "tags": ["Romantic", "Historic", "City"],
+    "description": "Enchanting canals and Renaissance architecture in the floating city."
+  },
+  {
+    "id": "6",
+    "name": "Swiss Alps",
+    "country": "Switzerland",
+    "image": "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?q=80&w=1000",
+    "tags": ["Mountain", "Snow", "Adventure"],
+    "description": "Breathtaking peaks, alpine villages, and world-class skiing."
+  },
+  {
+    "id": "7",
+    "name": "Serengeti",
+    "country": "Tanzania",
+    "image": "https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=1000",
+    "tags": ["Safari", "Wildlife", "Nature"],
+    "description": "Vast plains and incredible wildlife during the Great Migration."
+  },
+  {
+    "id": "8",
+    "name": "New York City",
+    "country": "USA",
+    "image": "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=1000",
+    "tags": ["City", "Urban", "Cultural"],
+    "description": "The iconic Big Apple with its towering skyscrapers and vibrant energy."
+  },
+  {
+    "id": "9",
+    "name": "Great Barrier Reef",
+    "country": "Australia",
+    "image": "https://images.unsplash.com/photo-1618664972395-edb9b564be7b?q=80&w=1000",
+    "tags": ["Ocean", "Nature", "Diving"],
+    "description": "World's largest coral reef system with incredible marine diversity."
+  },
+  {
+    "id": "10",
+    "name": "Marrakech",
+    "country": "Morocco",
+    "image": "https://images.unsplash.com/photo-1560505045-8d6db0f76da2?q=80&w=1000",
+    "tags": ["Cultural", "Market", "Historic"],
+    "description": "Vibrant souks and palaces bursting with color in this ancient city."
+  },
+  {
+    "id": "11",
+    "name": "Reykjavik",
+    "country": "Iceland",
+    "image": "https://images.unsplash.com/photo-1490929937514-2d4d17eb9c96?q=80&w=1000",
+    "tags": ["Nature", "Northern Lights", "Adventure"],
+    "description": "Gateway to Iceland's waterfalls, geysers, and the spectacular aurora borealis."
+  },
+  {
+    "id": "12",
+    "name": "Petra",
+    "country": "Jordan",
+    "image": "https://images.unsplash.com/photo-1554356877-f4861c215561?q=80&w=1000",
+    "tags": ["Ancient", "Historic", "Desert"],
+    "description": "Rose-colored ancient city carved into sandstone cliffs in the desert."
+  },
+  {
+    "id": "13",
+    "name": "Bali",
+    "country": "Indonesia",
+    "image": "https://images.unsplash.com/photo-1520962922320-2038eebab146?q=80&w=1000",
+    "tags": ["Island", "Cultural", "Beach"],
+    "description": "Island paradise with lush rice terraces, spiritual temples, and stunning beaches."
+  },
+  {
+    "id": "14",
+    "name": "Rio de Janeiro",
+    "country": "Brazil",
+    "image": "https://images.unsplash.com/photo-1516834611397-8d633eaec5d0?q=80&w=1000",
+    "tags": ["Beach", "City", "Cultural"],
+    "description": "Vibrant city with iconic beaches, samba, and the towering Christ the Redeemer statue."
+  },
+  {
+    "id": "15",
+    "name": "Prague",
+    "country": "Czech Republic",
+    "image": "https://images.unsplash.com/photo-1504197832061-98356e3dcdcf?q=80&w=1000",
+    "tags": ["City", "Historic", "Architecture"],
+    "description": "Fairy-tale architecture with its medieval Old Town and castles."
+  },
+  {
+    "id": "16",
+    "name": "Banff National Park",
+    "country": "Canada",
+    "image": "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?q=80&w=1000",
+    "tags": ["Mountain", "Lake", "Nature"],
+    "description": "Stunning turquoise lakes surrounded by snow-capped Rocky Mountains."
+  },
+  {
+    "id": "17",
+    "name": "Angkor Wat",
+    "country": "Cambodia",
+    "image": "https://images.unsplash.com/photo-1510641159137-363c580344b2?q=80&w=1000",
+    "tags": ["Temple", "Ancient", "Historic"],
+    "description": "Massive stone temples adorned with intricate carvings from the ancient Khmer Empire."
+  },
+  {
+    "id": "18",
+    "name": "Maldives",
+    "country": "Maldives",
+    "image": "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?q=80&w=1000",
+    "tags": ["Island", "Beach", "Luxury"],
+    "description": "Pristine white sandy beaches and private overwater villas in the Indian Ocean."
+  },
+  {
+    "id": "19",
+    "name": "Barcelona",
+    "country": "Spain",
+    "image": "https://images.unsplash.com/photo-1464790719320-516ecd75af6c?q=80&w=1000",
+    "tags": ["City", "Architecture", "Beach"],
+    "description": "Gaudi's fantastical architecture and Mediterranean beaches in this cosmopolitan Spanish city."
+  },
+  {
+    "id": "20",
+    "name": "Safari in Botswana",
+    "country": "Botswana",
+    "image": "https://images.unsplash.com/photo-1521651201144-634f700b36ef?q=80&w=1000",
+    "tags": ["Safari", "Wildlife", "Nature"],
+    "description": "Exclusive wildlife viewing in the pristine Okavango Delta."
+  },
+  {
+    "id": "21",
+    "name": "Amalfi Coast",
+    "country": "Italy",
+    "image": "https://images.unsplash.com/photo-1535391879653-792856185;901?q=80&w=1000",
+    "tags": ["Coastal", "Romantic", "Scenic"],
+    "description": "Dramatic cliffside villages overlooking the turquoise Mediterranean Sea."
+  },
+  {
+    "id": "22",
+    "name": "Grand Canyon",
+    "country": "USA",
+    "image": "https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?q=80&w=1000",
+    "tags": ["Nature", "Desert", "Hiking"],
+    "description": "Vast and majestic natural wonder carved by the Colorado River."
+  },
+  {
+    "id": "23",
+    "name": "Edinburgh",
+    "country": "Scotland",
+    "image": "https://images.unsplash.com/photo-1563361443-6db5e406b905?q=80&w=1000",
+    "tags": ["Historic", "City", "Cultural"],
+    "description": "Medieval old town and castle perched on volcanic rock in Scotland's capital."
+  },
+  {
+    "id": "24",
+    "name": "Ha Long Bay",
+    "country": "Vietnam",
+    "image": "https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=1000",
+    "tags": ["Nature", "Ocean", "Scenic"],
+    "description": "Emerald waters and thousands of towering limestone islands topped with rainforests."
+  },
+  {
+    "id": "25",
+    "name": "Dubrovnik",
+    "country": "Croatia",
+    "image": "https://images.unsplash.com/photo-1555990633-1a8b763a4282?q=80&w=1000",
+    "tags": ["Coastal", "Historic", "City"],
+    "description": "Medieval walled city jutting out into the azure waters of the Adriatic Sea."
+  },
+  {
+    "id": "26",
+    "name": "Queenstown",
+    "country": "New Zealand",
+    "image": "https://images.unsplash.com/photo-1543877347-da3e7ff4d04b?q=80&w=1000",
+    "tags": ["Adventure", "Mountain", "Nature"],
+    "description": "Adrenaline capital surrounded by majestic mountains and crystal-clear Lake Wakatipu."
+  },
+  {
+    "id": "27",
+    "name": "Paris",
+    "country": "France",
+    "image": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1000",
+    "tags": ["City", "Romantic", "Cultural"],
+    "description": "The City of Light with iconic landmarks, world-class cuisine, and artistic treasures."
+  },
+  {
+    "id": "28",
+    "name": "Napa Valley",
+    "country": "USA",
+    "image": "https://images.unsplash.com/photo-1572913017567-02f0b3f4b70c?q=80&w=1000",
+    "tags": ["Wine", "Culinary", "Scenic"],
+    "description": "Rolling vineyards and world-class wineries in California's premier wine region."
+  },
+  {
+    "id": "29",
+    "name": "Cappadocia",
+    "country": "Turkey",
+    "image": "https://images.unsplash.com/photo-1539064360225-be12346a2bc4?q=80&w=1000",
+    "tags": ["Unique", "Historic", "Adventure"],
+    "description": "Surreal landscape of fairy chimneys and hot air balloons at sunrise."
+  },
+  {
+    "id": "30",
+    "name": "Tokyo",
+    "country": "Japan",
+    "image": "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=1000",
+    "tags": ["City", "Modern", "Cultural"],
+    "description": "Ultra-modern city blending cutting-edge technology with ancient traditions."
+  }
+]
