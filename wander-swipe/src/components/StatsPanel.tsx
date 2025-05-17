@@ -219,6 +219,7 @@ export const StatsPanel = () => {
                       <div 
                         className="w-full h-full relative bg-cover bg-center"
                         style={{ backgroundImage: `url(${card.image})` }}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <div className="card-overlay absolute inset-0 rounded-2xl"></div>
                         <div className="absolute inset-x-0 bottom-0 p-6 text-white">
