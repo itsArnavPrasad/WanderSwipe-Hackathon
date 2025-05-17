@@ -192,7 +192,10 @@ export const StatsPanel = () => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                   className="fixed inset-0 z-60 bg-black/60 backdrop-blur-sm"
-                  onClick={() => setExpandedCard(null)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setExpandedCard(null);
+                  }}
                 />
                 <motion.div
                   key="expanded-card"
