@@ -80,7 +80,7 @@ export const CardDeck: React.FC<CardDeckProps> = ({ destinations }) => {
                   />
                 ) : (
                   <div 
-                    className="w-full h-full rounded-2xl overflow-hidden shadow-lg bg-cover bg-center border-4 border-white dark:border-gray-800"
+                    className="w-full h-full rounded-2xl overflow-hidden shadow-lg bg-cover bg-center border-[7px] border-white dark:border-gray-800"
                     style={{ backgroundImage: `url(${destination.image})` }}
                   >
                     {/* Add proper rounded overlay to fix sharp edges */}

@@ -121,7 +121,7 @@ export const DestinationCard = ({ destination, onVote }: DestinationCardProps) =
       <div 
         className={cn(
           "parallax-card w-full h-full rounded-2xl overflow-hidden shadow-2xl",
-          "border-4 border-white dark:border-gray-800"
+          "border-[7px] border-white dark:border-gray-800"
         )}
         style={{
           transform: `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${isHovering ? 1.02 : 1})`,
