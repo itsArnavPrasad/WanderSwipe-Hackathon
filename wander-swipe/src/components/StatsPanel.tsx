@@ -3,7 +3,7 @@ import { useDestinations } from '../contexts/DestinationContext';
 import { Tag } from './Tag';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Heart, ChevronRight, XCircle } from 'lucide-react';
+import { X, Heart, ChevronRight, XCircle, ChevronLeft } from 'lucide-react';
 import { useSound } from '../hooks/useSound';
 
 // Helper function to manage body scroll
@@ -20,6 +20,7 @@ export const StatsPanel = () => {
   const { play } = useSound('/sounds/button-click.mp3', 0.05);
   const panelRef = React.useRef<HTMLDivElement>(null);
   const [expandedCard, setExpandedCard] = React.useState<string | null>(null);
+  const [currentCardIndex, setCurrentCardIndex] = React.useState<number | null>(null);
 
   // Manage body scroll when panel or expanded card is open
   React.useEffect(() => {
@@ -72,6 +73,7 @@ export const StatsPanel = () => {
     e.stopPropagation();
     play();
     setExpandedCard(cardId);
+    setCurrentCardIndex(likedCards.findIndex(c => c.id === cardId));
   };
 
   const handlePanelToggle = (e: React.MouseEvent) => {
@@ -95,6 +97,20 @@ export const StatsPanel = () => {
   const handleExpandedOverlayClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setExpandedCard(null);
+  };
+
+  const handlePreviousCard = () => {
+    if (currentCardIndex !== null && currentCardIndex > 0) {
+      setExpandedCard(likedCards[currentCardIndex - 1].id);
+      setCurrentCardIndex(currentCardIndex - 1);
+    }
+  };
+
+  const handleNextCard = () => {
+    if (currentCardIndex !== null && currentCardIndex < likedCards.length - 1) {
+      setExpandedCard(likedCards[currentCardIndex + 1].id);
+      setCurrentCardIndex(currentCardIndex + 1);
+    }
   };
 
   return (
@@ -179,8 +195,9 @@ export const StatsPanel = () => {
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ delay: index * 0.1 }}
                         className={cn(
-                          'relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700',
-                          'hover:border-gray-300 dark:hover:border-gray-600 transition-colors duration-300',
+                          'relative group rounded-lg overflow-hidden border',
+                          card.id === expandedCard ? 'border-indigo-500 dark:border-indigo-400 scale-105' : 'border-gray-200 dark:border-gray-700',
+                          'hover:border-gray-300 dark:hover:border-gray-600 transition-transform duration-300',
                           'hover:shadow-md'
                         )}
                         onClick={(e) => handleCardClick(e, card.id)}
@@ -228,7 +245,7 @@ export const StatsPanel = () => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.15 }}
-                  className="fixed inset-0 z-60 bg-black/60 backdrop-blur-sm"
+                  className="fixed inset-0 z-60 bg-black/60"
                   onClick={handleExpandedOverlayClick}
                 />
                 <motion.div
@@ -246,6 +263,24 @@ export const StatsPanel = () => {
                   }}
                   onClick={(e) => e.stopPropagation()}
                 >
+                  {/* Navigation Arrows */}
+                  {currentCardIndex !== null && currentCardIndex > 0 && (
+                    <button
+                      onClick={handlePreviousCard}
+                      className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 transition-colors p-2 rounded-full"
+                    >
+                      <ChevronLeft className="w-6 h-6 text-white" />
+                    </button>
+                  )}
+                  {currentCardIndex !== null && currentCardIndex < likedCards.length - 1 && (
+                    <button
+                      onClick={handleNextCard}
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 transition-colors p-2 rounded-full"
+                    >
+                      <ChevronRight className="w-6 h-6 text-white" />
+                    </button>
+                  )}
+
                   {(() => {
                     const card = likedCards.find(c => c.id === expandedCard);
                     if (!card) return null;
