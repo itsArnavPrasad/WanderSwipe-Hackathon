@@ -20,15 +20,22 @@ export const StatsPanel = () => {
   const { play } = useSound('/sounds/button-click.mp3', 0.05);
   const panelRef = React.useRef<HTMLDivElement>(null);
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  const cardContentRef = React.useRef<HTMLDivElement>(null);
   const [expandedCard, setExpandedCard] = React.useState<string | null>(null);
   const [currentCardIndex, setCurrentCardIndex] = React.useState<number | null>(null);
   const [isCopied, setIsCopied] = React.useState(false);
+  const [isFlipped, setIsFlipped] = React.useState(false);
 
   // Manage body scroll when panel or expanded card is open
   React.useEffect(() => {
     toggleBodyScroll(showStatsPanel || expandedCard !== null);
     return () => toggleBodyScroll(false);
   }, [showStatsPanel, expandedCard]);
+
+  // Reset isFlipped when card changes
+  React.useEffect(() => {
+    setIsFlipped(false);
+  }, [expandedCard]);
 
   // Handle escape key
   React.useEffect(() => {
@@ -160,6 +167,16 @@ export const StatsPanel = () => {
       console.error('Failed to copy text: ', err);
     }
     document.body.removeChild(textArea);
+  };
+
+  const handleFlip = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    play();
+    setIsFlipped(!isFlipped);
+    // If flipping to back side, scroll to top
+    if (!isFlipped && cardContentRef.current) {
+      cardContentRef.current.scrollTop = 0;
+    }
   };
 
   return (
@@ -325,7 +342,7 @@ export const StatsPanel = () => {
                 <motion.div
                   key="expanded-card"
                   layoutId={`card-${expandedCard}`}
-                  className="fixed z-70 top-[25%] transform -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-2xl h-[600px] rounded-2xl overflow-hidden shadow-2xl border-[7px] border-white dark:border-gray-800"
+                  className="fixed z-70 top-[25%] transform -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-2xl h-[600px] rounded-2xl overflow-hidden shadow-2xl"
                   initial={{ opacity: 0.8, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.5 }}
@@ -337,53 +354,158 @@ export const StatsPanel = () => {
                   }}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {/* Navigation Arrows */}
-                  {currentCardIndex !== null && currentCardIndex > 0 && (
-                    <button
-                      onClick={handlePreviousCard}
-                      className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/40 transition-all duration-200 p-2 rounded-lg backdrop-blur-sm shadow-lg z-50"
-                      aria-label="Previous destination"
-                    >
-                      <ChevronLeft className="w-6 h-6 text-white drop-shadow-lg" />
-                    </button>
-                  )}
-                  {currentCardIndex !== null && currentCardIndex < likedCards.length - 1 && (
-                    <button
-                      onClick={handleNextCard}
-                      className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/40 transition-all duration-200 p-2 rounded-lg backdrop-blur-sm shadow-lg z-50"
-                      aria-label="Next destination"
-                    >
-                      <ChevronRight className="w-6 h-6 text-white drop-shadow-lg" />
-                    </button>
-                  )}
-
                   {(() => {
                     const card = likedCards.find(c => c.id === expandedCard);
                     if (!card) return null;
+
                     return (
-                      <div 
-                        className="relative w-full h-full bg-cover bg-center"
-                        style={{ backgroundImage: `url(${card.image})` }}
-                        onClick={(e) => e.stopPropagation()}
+                      <motion.div 
+                        className="relative w-full h-full"
+                        initial={false}
+                        animate={{ rotateY: isFlipped ? 180 : 0 }}
+                        transition={{ duration: 0.6, type: "spring", stiffness: 300, damping: 30 }}
+                        style={{ 
+                          transformStyle: "preserve-3d",
+                          perspective: "2000px"
+                        }}
                       >
-                        <div className="card-overlay absolute -inset-[3px] rounded-2xl bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                        <div className="absolute inset-x-0 bottom-0 p-8 text-white">
-                          <div className="mb-3 flex flex-wrap">
-                            {card.tags.map((tag) => (
-                              <Tag key={tag} label={tag} />
-                            ))}
-                          </div>
-                          <h2 className="heading-text text-3xl font-bold mb-1 text-shadow-sm">{card.name}</h2>
-                          <p className="body-text text-gray-200 mb-3 text-shadow-sm">{card.country}</p>
-                          <p className="body-text text-sm text-gray-100 max-w-md text-shadow-sm">{card.description}</p>
-                        </div>
-                        <button
-                          onClick={handleExpandedCardClose}
-                          className="absolute top-4 right-4 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors"
+                        {/* Front of the card */}
+                        <motion.div 
+                          className="absolute w-full h-full rounded-2xl border-[7px] border-white dark:border-gray-800"
+                          style={{ 
+                            backfaceVisibility: "hidden",
+                            backgroundImage: `url(${card.image})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            WebkitBackfaceVisibility: "hidden"
+                          }}
                         >
-                          <X className="w-5 h-5 text-white" />
-                        </button>
-                      </div>
+                          <div className="card-overlay absolute -inset-[3px] rounded-2xl bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                          <div className="absolute inset-x-0 bottom-0 p-8 text-white">
+                            <div className="mb-3 flex flex-wrap">
+                              {card.tags.map((tag) => (
+                                <Tag key={tag} label={tag} />
+                              ))}
+                            </div>
+                            <h2 className="heading-text text-3xl font-bold mb-1 text-shadow-sm">{card.name}</h2>
+                            <p className="body-text text-gray-200 mb-3 text-shadow-sm">{card.country}</p>
+                            <p className="body-text text-sm text-gray-100 max-w-md text-shadow-sm">{card.description}</p>
+                          </div>
+                          <button
+                            onClick={handleExpandedCardClose}
+                            className="absolute top-4 right-4 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors"
+                          >
+                            <X className="w-5 h-5 text-white" />
+                          </button>
+                          <button
+                            onClick={handleFlip}
+                            className="absolute bottom-4 right-4 px-4 py-2 rounded-lg bg-black/30 hover:bg-black/50 transition-colors text-white text-sm font-medium"
+                          >
+                            More Info
+                          </button>
+                          {/* Only show navigation arrows on front side */}
+                          {!isFlipped && (
+                            <>
+                              {currentCardIndex !== null && currentCardIndex > 0 && (
+                                <button
+                                  onClick={handlePreviousCard}
+                                  className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/40 transition-all duration-200 p-2 rounded-lg backdrop-blur-sm shadow-lg z-50"
+                                  aria-label="Previous destination"
+                                >
+                                  <ChevronLeft className="w-6 h-6 text-white drop-shadow-lg" />
+                                </button>
+                              )}
+                              {currentCardIndex !== null && currentCardIndex < likedCards.length - 1 && (
+                                <button
+                                  onClick={handleNextCard}
+                                  className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/40 transition-all duration-200 p-2 rounded-lg backdrop-blur-sm shadow-lg z-50"
+                                  aria-label="Next destination"
+                                >
+                                  <ChevronRight className="w-6 h-6 text-white drop-shadow-lg" />
+                                </button>
+                              )}
+                            </>
+                          )}
+                        </motion.div>
+
+                        {/* Back of the card */}
+                        <motion.div 
+                          className="absolute w-full h-full rounded-2xl border-[7px] border-white dark:border-gray-800"
+                          style={{ 
+                            backfaceVisibility: "hidden",
+                            WebkitBackfaceVisibility: "hidden",
+                            transform: "rotateY(180deg)",
+                            backgroundImage: `url(${card.image})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center"
+                          }}
+                        >
+                          {/* Dark overlay for better text readability */}
+                          <div className="absolute inset-0 bg-black/90 rounded-2xl"></div>
+                          
+                          {/* Scrollable content area */}
+                          <div 
+                            ref={cardContentRef}
+                            className="absolute inset-0 overflow-y-auto pb-20"
+                          >
+                            <div className="p-8">
+                              <div className="text-white">
+                                <h2 className="heading-text text-3xl font-bold mb-4">{card.name}</h2>
+                                <p className="body-text text-xl text-gray-300 mb-4">{card.country}</p>
+                                
+                                <div className="mb-6">
+                                  <h3 className="text-lg font-semibold mb-2">Description</h3>
+                                  <p className="text-gray-300">{card.description}</p>
+                                </div>
+
+                                <div className="mb-6">
+                                  <h3 className="text-lg font-semibold mb-2">Tags</h3>
+                                  <div className="flex flex-wrap gap-2">
+                                    {card.tags.map((tag) => (
+                                      <Tag key={tag} label={tag} />
+                                    ))}
+                                  </div>
+                                </div>
+
+                                <div className="mb-6">
+                                  <h3 className="text-lg font-semibold mb-2">What to Experience</h3>
+                                  <ul className="list-disc list-inside text-gray-300 space-y-2">
+                                    {card.experience.map((exp, index) => (
+                                      <li key={index}>{exp}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+
+                                <div className="mb-6">
+                                  <h3 className="text-lg font-semibold mb-2">Who Should Visit</h3>
+                                  <ul className="list-disc list-inside text-gray-300 space-y-2">
+                                    {card.demographic.map((demo, index) => (
+                                      <li key={index}>{demo}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Fixed buttons container */}
+                          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black to-transparent pointer-events-none">
+                            <button
+                              onClick={handleFlip}
+                              className="absolute bottom-4 right-4 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors text-white text-sm font-medium pointer-events-auto"
+                            >
+                              Back
+                            </button>
+                          </div>
+
+                          <button
+                            onClick={handleExpandedCardClose}
+                            className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                          >
+                            <X className="w-5 h-5 text-white" />
+                          </button>
+                        </motion.div>
+                      </motion.div>
                     );
                   })()}
                 </motion.div>
