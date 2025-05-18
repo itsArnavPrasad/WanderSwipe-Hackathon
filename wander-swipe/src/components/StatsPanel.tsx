@@ -123,6 +123,7 @@ export const StatsPanel = () => {
 
   const handlePreviousCard = () => {
     if (currentCardIndex !== null && currentCardIndex > 0) {
+      play();
       const newIndex = currentCardIndex - 1;
       setExpandedCard(likedCards[newIndex].id);
       setCurrentCardIndex(newIndex);
@@ -132,6 +133,7 @@ export const StatsPanel = () => {
 
   const handleNextCard = () => {
     if (currentCardIndex !== null && currentCardIndex < likedCards.length - 1) {
+      play();
       const newIndex = currentCardIndex + 1;
       setExpandedCard(likedCards[newIndex].id);
       setCurrentCardIndex(newIndex);
