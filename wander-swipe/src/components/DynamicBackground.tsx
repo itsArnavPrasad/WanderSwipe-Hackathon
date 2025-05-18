@@ -1,21 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 
 export const DynamicBackground: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 }); // Center by default
+  const [isHovering, setIsHovering] = useState(true); // Start as true to show initial gradient
+  const lastKnownPosition = useRef({ x: 0.5, y: 0.5 });
   const { theme } = useTheme();
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const x = e.clientX / window.innerWidth;
       const y = e.clientY / window.innerHeight;
+      lastKnownPosition.current = { x, y };
       setMousePosition({ x, y });
       setIsHovering(true);
     };
 
     const handleMouseLeave = () => {
-      setIsHovering(false);
+      // Keep the last known position when cursor leaves
+      setMousePosition(lastKnownPosition.current);
+      setIsHovering(true); // Keep the hover effect active
     };
     
     window.addEventListener('mousemove', handleMouseMove);
@@ -74,7 +78,7 @@ export const DynamicBackground: React.FC<{ children: React.ReactNode }> = ({ chi
             ${endColor} 100%
           )
         `,
-        transition: "background 1.5s ease"
+        transition: "all 0.8s cubic-bezier(0.22, 1, 0.36, 1)"
       }}
     >
       <div className="absolute inset-0 bg-grid-pattern opacity-10 dark:opacity-5"></div>
