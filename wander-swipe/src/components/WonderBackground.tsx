@@ -3,14 +3,14 @@ import { motion, useAnimation, useMotionValue, useSpring } from 'framer-motion';
 
 // Configuration for each wonder image
 const wonderConfigs = [
-  { id: 1, name: "Lion", defaultPos: { x: 4, y: 7 }, size: 150, blur: 1 },
-  { id: 2, name: "London Clock", defaultPos: { x: 6, y: 38 }, size: 250, blur: 1 },
-  { id: 3, name: "Christ Redeemer", defaultPos: { x: 20, y: 20 }, size: 220, blur: 0.5 },
-  { id: 4, name: "Taj Mahal", defaultPos: { x: 7, y: 73 }, size: 280, blur: 0 },
-  { id: 5, name: "Greek Building", defaultPos: { x: 75, y: 7 }, size: 200, blur: 0.8 },
-  { id: 6, name: "Leaning Tower Of Pisa", defaultPos: { x: 67, y: 60 }, size: 215, blur: 0.3 },
-  { id: 7, name: "Effiel Tower", defaultPos: { x: 80, y: 30 }, size: 235, blur: 0 },
-  { id: 8, name: "Statue of Liberty", defaultPos: { x: 84, y: 65 }, size: 220, blur: 0.5 },
+  { id: 1, name: "Lion", defaultPos: { x: 4, y: 7 }, size: 150 + 10, blur: 1 },
+  { id: 2, name: "London Clock", defaultPos: { x: 6, y: 38 }, size: 250 + 10, blur: 1 },
+  { id: 3, name: "Christ Redeemer", defaultPos: { x: 20, y: 20 }, size: 220 + 10, blur: 0.5 },
+  { id: 4, name: "Taj Mahal", defaultPos: { x: 7, y: 73 }, size: 280 + 10, blur: 0 },
+  { id: 5, name: "Greek Building", defaultPos: { x: 75, y: 7 }, size: 200 + 10, blur: 0.8 },
+  { id: 6, name: "Leaning Tower Of Pisa", defaultPos: { x: 67, y: 60 }, size: 215 + 10, blur: 0.3 },
+  { id: 7, name: "Effiel Tower", defaultPos: { x: 80, y: 30 }, size: 235 + 10, blur: 0 },
+  { id: 8, name: "Statue of Liberty", defaultPos: { x: 84, y: 65 }, size: 220 + 10, blur: 0.5 },
 ].map((config, index) => ({
   ...config,
   src: `/wonders/w${index + 1}.png`
@@ -29,7 +29,7 @@ const WonderImage: React.FC<WonderImageProps> = ({ config }) => {
   // Spring configuration for more subtle jelly effect
   const springConfig = {
     stiffness: 150,
-    damping: 30,
+    damping: 10,
     mass: 1
   };
 
