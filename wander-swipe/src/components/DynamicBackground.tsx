@@ -47,12 +47,12 @@ export const DynamicBackground: React.FC<{ children: React.ReactNode }> = ({ chi
         start: 'hsl(215, 100%, 96%)',
         end: 'hsl(248, 100%, 95%)',
         hover: {
-          start: 'hsl(225, 100%, 94%)',
-          end: 'hsl(258, 100%, 93%)'
+          start: 'hsl(225, 100%, 88%)',  // Made lighter and more saturated
+          end: 'hsl(258, 100%, 85%)'     // Made lighter and more saturated
         },
         wondersOverlay: {
-          normal: 'rgba(79, 70, 229, 0.03)',
-          hover: 'rgba(99, 102, 241, 0.05)'
+          normal: 'rgba(79, 70, 229, 0.05)',  // Increased base opacity
+          hover: 'rgba(99, 102, 241, 0.08)'   // Increased hover opacity
         }
       };
     }
