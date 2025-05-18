@@ -19,6 +19,7 @@ export const StatsPanel = () => {
   const { likedCards, tagCounts, showStatsPanel, toggleStatsPanel, removeLikedCard } = useDestinations();
   const { play } = useSound('/sounds/button-click.mp3', 0.05);
   const panelRef = React.useRef<HTMLDivElement>(null);
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const [expandedCard, setExpandedCard] = React.useState<string | null>(null);
   const [currentCardIndex, setCurrentCardIndex] = React.useState<number | null>(null);
 
@@ -107,17 +108,33 @@ export const StatsPanel = () => {
     setExpandedCard(null);
   };
 
+  const scrollToCard = (index: number) => {
+    if (scrollContainerRef.current) {
+      const cardElements = scrollContainerRef.current.getElementsByClassName('card-item');
+      if (cardElements[index]) {
+        cardElements[index].scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
+    }
+  };
+
   const handlePreviousCard = () => {
     if (currentCardIndex !== null && currentCardIndex > 0) {
-      setExpandedCard(likedCards[currentCardIndex - 1].id);
-      setCurrentCardIndex(currentCardIndex - 1);
+      const newIndex = currentCardIndex - 1;
+      setExpandedCard(likedCards[newIndex].id);
+      setCurrentCardIndex(newIndex);
+      scrollToCard(newIndex);
     }
   };
 
   const handleNextCard = () => {
     if (currentCardIndex !== null && currentCardIndex < likedCards.length - 1) {
-      setExpandedCard(likedCards[currentCardIndex + 1].id);
-      setCurrentCardIndex(currentCardIndex + 1);
+      const newIndex = currentCardIndex + 1;
+      setExpandedCard(likedCards[newIndex].id);
+      setCurrentCardIndex(newIndex);
+      scrollToCard(newIndex);
     }
   };
 
@@ -194,7 +211,7 @@ export const StatsPanel = () => {
                   </div>
 
                   <h3 className="heading-text font-medium mb-3">Liked Destinations ({likedCards.length})</h3>
-                  <div className="space-y-3">
+                  <div className="space-y-3" ref={scrollContainerRef}>
                     {likedCards.map((card, index) => (
                       <motion.div
                         key={card.id}
@@ -203,7 +220,7 @@ export const StatsPanel = () => {
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ delay: index * 0.1 }}
                         className={cn(
-                          'relative group rounded-lg overflow-hidden border',
+                          'relative group rounded-lg overflow-hidden border card-item',
                           card.id === expandedCard ? 'border-indigo-500 dark:border-indigo-400 scale-105' : 'border-gray-200 dark:border-gray-700',
                           'hover:border-gray-300 dark:hover:border-gray-600 transition-transform duration-300',
                           'hover:shadow-md'
