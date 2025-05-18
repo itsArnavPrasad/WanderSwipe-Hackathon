@@ -244,6 +244,7 @@ export const StatsPanel = () => {
                     stiffness: 400,
                     duration: 0.15
                   }}
+                  onClick={(e) => e.stopPropagation()}
                 >
                   {(() => {
                     const card = likedCards.find(c => c.id === expandedCard);
@@ -252,6 +253,7 @@ export const StatsPanel = () => {
                       <div 
                         className="relative w-full h-full bg-cover bg-center"
                         style={{ backgroundImage: `url(${card.image})` }}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <div className="card-overlay absolute -inset-[3px] rounded-2xl bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                         <div className="absolute inset-x-0 bottom-0 p-8 text-white">
