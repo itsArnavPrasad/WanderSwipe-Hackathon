@@ -252,7 +252,10 @@ export const StatsPanel = () => {
                   </div>
 
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="heading-text font-medium">Liked Destinations ({likedCards.length})</h3>
+                    <div>
+                      <h3 className="heading-text font-medium">Liked Destinations ({likedCards.length})</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Open the cards for more info</p>
+                    </div>
                     <div className="relative">
                       <button
                         onClick={handleCopyDestinations}
@@ -430,7 +433,7 @@ export const StatsPanel = () => {
 
                         {/* Back of the card */}
                         <motion.div 
-                          className="absolute w-full h-full rounded-2xl border-[7px] border-white dark:border-gray-800"
+                          className="absolute w-full h-full rounded-2xl border-[7px] border-white dark:border-gray-800 overflow-hidden"
                           style={{ 
                             backfaceVisibility: "hidden",
                             WebkitBackfaceVisibility: "hidden",
@@ -441,7 +444,7 @@ export const StatsPanel = () => {
                           }}
                         >
                           {/* Dark overlay for better text readability */}
-                          <div className="absolute inset-0 bg-black/90 rounded-2xl"></div>
+                          <div className="absolute inset-0 bg-black/90"></div>
                           
                           {/* Scrollable content area */}
                           <div 

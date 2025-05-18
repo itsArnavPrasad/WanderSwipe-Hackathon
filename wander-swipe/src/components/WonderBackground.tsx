@@ -53,9 +53,9 @@ const WonderImage: React.FC<WonderImageProps> = ({ config }) => {
       controls.start({
         x: [0, randomX, 0, -randomX, 0],
         y: [0, randomY, -randomY, 0, randomY, 0],
-        rotate: [0, randomX/3, 0, -randomX/3, 0],
+        rotate: [0, randomX*3, 0, -randomX*3, 0],
         transition: {
-          duration: randomDuration,
+          duration: randomDuration*3,
           ease: "easeInOut",
           repeat: Infinity,
           repeatType: "reverse"
