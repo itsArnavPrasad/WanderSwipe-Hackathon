@@ -5,6 +5,7 @@ import { Destination } from '../types';
 import { Tag } from './Tag';
 import { cn } from '@/lib/utils';
 import { useSound } from '../hooks/useSound';
+import { SwipeSticker } from './SwipeSticker';
 
 interface DestinationCardProps {
   destination: Destination;
@@ -19,6 +20,10 @@ export const DestinationCard = ({ destination, onVote }: DestinationCardProps) =
   const { play: playLikeSound } = useSound('/sounds/swipe-right.mp3');
   const { play: playDislikeSound } = useSound('/sounds/swipe-left.mp3');
   
+  // Add state for sticker visibility
+  const [showLikeSticker, setShowLikeSticker] = React.useState(false);
+  const [showDislikeSticker, setShowDislikeSticker] = React.useState(false);
+  
   // Parallax effect state
   const [rotateX, setRotateX] = React.useState(0);
   const [rotateY, setRotateY] = React.useState(0);
@@ -29,6 +34,15 @@ export const DestinationCard = ({ destination, onVote }: DestinationCardProps) =
   const rotate = useTransform(x, [-300, 300], [-45, 45]);
   const opacity = useTransform(x, [-300, -200, 0, 200, 300], [0, 1, 1, 1, 0]);
   
+  // Update sticker visibility based on drag position
+  React.useEffect(() => {
+    const unsubscribe = x.onChange((latest) => {
+      setShowLikeSticker(latest > 100);
+      setShowDislikeSticker(latest < -100);
+    });
+    return () => unsubscribe();
+  }, [x]);
+  
   const handleDragEnd = (event: MouseEvent | PointerEvent | TouchEvent, info: { offset: { x: number } }) => {
     if (!isSwipeEnabled) return;
     
@@ -38,13 +52,21 @@ export const DestinationCard = ({ destination, onVote }: DestinationCardProps) =
       playLikeSound();
       onVote('right');
       setIsSwipeEnabled(false);
-      setTimeout(() => setIsSwipeEnabled(true), 1000);
+      setShowLikeSticker(true);
+      setTimeout(() => {
+        setShowLikeSticker(false);
+        setIsSwipeEnabled(true);
+      }, 1000);
     } else if (info.offset.x < -150) {
       setExitX(-300);
       playDislikeSound();
       onVote('left');
       setIsSwipeEnabled(false);
-      setTimeout(() => setIsSwipeEnabled(true), 1000);
+      setShowDislikeSticker(true);
+      setTimeout(() => {
+        setShowDislikeSticker(false);
+        setIsSwipeEnabled(true);
+      }, 1000);
     }
   };
   
@@ -87,13 +109,21 @@ export const DestinationCard = ({ destination, onVote }: DestinationCardProps) =
         playLikeSound();
         onVote('right');
         setIsSwipeEnabled(false);
-        setTimeout(() => setIsSwipeEnabled(true), 1000);
+        setShowLikeSticker(true);
+        setTimeout(() => {
+          setShowLikeSticker(false);
+          setIsSwipeEnabled(true);
+        }, 1000);
       } else if (e.key === 'ArrowLeft') {
         setExitX(-300);
         playDislikeSound();
         onVote('left');
         setIsSwipeEnabled(false);
-        setTimeout(() => setIsSwipeEnabled(true), 1000);
+        setShowDislikeSticker(true);
+        setTimeout(() => {
+          setShowDislikeSticker(false);
+          setIsSwipeEnabled(true);
+        }, 1000);
       }
     };
     
@@ -102,50 +132,54 @@ export const DestinationCard = ({ destination, onVote }: DestinationCardProps) =
   }, [destination, addLikedCard, onVote, playLikeSound, playDislikeSound, isSwipeEnabled, showStatsPanel]);
   
   return (
-    <motion.div
-      ref={cardRef}
-      className="absolute inset-0 w-full h-full"
-      drag={isSwipeEnabled ? "x" : false}
-      dragConstraints={{ left: 0, right: 0 }}
-      onDragEnd={handleDragEnd}
-      style={{
-        x,
-        rotate,
-        opacity,
-      }}
-      animate={{ x: exitX }}
-      transition={{ duration: 0.2 }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onMouseEnter={handleMouseEnter}
-    >
-      <div 
-        className={cn(
-          "parallax-card w-full h-full rounded-2xl overflow-hidden shadow-2xl",
-          "border-[7px] border-white dark:border-gray-800"
-        )}
+    <>
+      <SwipeSticker type="like" isVisible={showLikeSticker} />
+      <SwipeSticker type="dislike" isVisible={showDislikeSticker} />
+      <motion.div
+        ref={cardRef}
+        className="absolute inset-0 w-full h-full"
+        drag={isSwipeEnabled ? "x" : false}
+        dragConstraints={{ left: 0, right: 0 }}
+        onDragEnd={handleDragEnd}
         style={{
-          transform: `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${isHovering ? 1.02 : 1})`,
-          boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+          x,
+          rotate,
+          opacity,
         }}
+        animate={{ x: exitX }}
+        transition={{ duration: 0.2 }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        onMouseEnter={handleMouseEnter}
       >
         <div 
-          className="relative w-full h-full bg-cover bg-center"
-          style={{ backgroundImage: `url(${destination.image})` }}
+          className={cn(
+            "parallax-card w-full h-full rounded-2xl overflow-hidden shadow-2xl",
+            "border-[7px] border-white dark:border-gray-800"
+          )}
+          style={{
+            transform: `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${isHovering ? 1.02 : 1})`,
+            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+          }}
         >
-          <div className="card-overlay absolute -inset-[3px] rounded-2xl bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-          <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-            <div className="mb-3 flex flex-wrap">
-              {destination.tags.map((tag) => (
-                <Tag key={tag} label={tag} />
-              ))}
+          <div 
+            className="relative w-full h-full bg-cover bg-center"
+            style={{ backgroundImage: `url(${destination.image})` }}
+          >
+            <div className="card-overlay absolute -inset-[3px] rounded-2xl bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+            <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+              <div className="mb-3 flex flex-wrap">
+                {destination.tags.map((tag) => (
+                  <Tag key={tag} label={tag} />
+                ))}
+              </div>
+              <h2 className="heading-text text-3xl md:text-4xl font-bold mb-1 text-shadow-sm">{destination.name}</h2>
+              <p className="body-text text-gray-200 mb-3 text-shadow-sm">{destination.country}</p>
+              <p className="body-text text-sm text-gray-100 max-w-md text-shadow-sm">{destination.description}</p>
             </div>
-            <h2 className="heading-text text-3xl md:text-4xl font-bold mb-1 text-shadow-sm">{destination.name}</h2>
-            <p className="body-text text-gray-200 mb-3 text-shadow-sm">{destination.country}</p>
-            <p className="body-text text-sm text-gray-100 max-w-md text-shadow-sm">{destination.description}</p>
           </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </>
   );
 };
