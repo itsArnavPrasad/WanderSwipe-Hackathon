@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useAnimation, useMotionValue, useSpring } from 'framer-motion';
+import { useTheme } from '../contexts/ThemeContext';
+import { cn } from '../lib/utils';
 
 // Configuration for each wonder image
 const wonderConfigs = [
@@ -25,6 +27,7 @@ const WonderImage: React.FC<WonderImageProps> = ({ config }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [baseX, setBaseX] = useState(0);
   const [baseY, setBaseY] = useState(0);
+  const { theme } = useTheme();
   
   // Spring configuration for more subtle jelly effect
   const springConfig = {
@@ -123,13 +126,18 @@ const WonderImage: React.FC<WonderImageProps> = ({ config }) => {
     >
       <motion.div
         className="relative w-full h-full"
-        animate={{ opacity: 0.25 }}
+        animate={{ opacity: theme === 'dark' ? 0.4 : 0.25 }}
         transition={{ duration: 0.3 }}
       >
         <img
           src={config.src}
           alt={config.name}
-          className="w-full h-full object-contain transition-all duration-300 mix-blend-luminosity brightness-[0.9] contrast-[0.9]"
+          className={cn(
+            "w-full h-full object-contain transition-all duration-300 mix-blend-luminosity",
+            theme === 'dark' 
+              ? "brightness-[1.1] contrast-[1.1]" 
+              : "brightness-[0.9] contrast-[0.9]"
+          )}
         />
       </motion.div>
     </motion.div>
@@ -137,6 +145,8 @@ const WonderImage: React.FC<WonderImageProps> = ({ config }) => {
 };
 
 export const WonderBackground: React.FC = () => {
+  const { theme } = useTheme();
+  
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden">
       {/* Static background image */}
@@ -144,7 +154,10 @@ export const WonderBackground: React.FC = () => {
         <img 
           src="/t-line.png" 
           alt="Background pattern" 
-          className="w-full h-full object-cover opacity-25 mix-blend-luminosity"
+          className={cn(
+            "w-full h-full object-cover mix-blend-luminosity",
+            theme === 'dark' ? "opacity-40" : "opacity-25"
+          )}
         />
       </div>
       
