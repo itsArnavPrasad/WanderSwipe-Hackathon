@@ -3,7 +3,7 @@ import { useDestinations } from '../contexts/DestinationContext';
 import { Tag } from './Tag';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Heart, ChevronRight, XCircle, ChevronLeft } from 'lucide-react';
+import { X, Heart, ChevronRight, XCircle, ChevronLeft, Copy, Check } from 'lucide-react';
 import { useSound } from '../hooks/useSound';
 
 // Helper function to manage body scroll
@@ -22,6 +22,7 @@ export const StatsPanel = () => {
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const [expandedCard, setExpandedCard] = React.useState<string | null>(null);
   const [currentCardIndex, setCurrentCardIndex] = React.useState<number | null>(null);
+  const [isCopied, setIsCopied] = React.useState(false);
 
   // Manage body scroll when panel or expanded card is open
   React.useEffect(() => {
@@ -138,6 +139,27 @@ export const StatsPanel = () => {
     }
   };
 
+  const handleCopyDestinations = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    play();
+    const destinationsList = `Liked Destinations:\n${likedCards.map((card, index) => 
+      `${index + 1}. ${card.name} - ${card.country}\n${card.description}`
+    ).join('\n\n')}`;
+
+    const textArea = document.createElement('textarea');
+    textArea.value = destinationsList;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+    document.body.removeChild(textArea);
+  };
+
   return (
     <AnimatePresence mode="sync">
       {showStatsPanel ? (
@@ -210,7 +232,32 @@ export const StatsPanel = () => {
                     </div>
                   </div>
 
-                  <h3 className="heading-text font-medium mb-3">Liked Destinations ({likedCards.length})</h3>
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="heading-text font-medium">Liked Destinations ({likedCards.length})</h3>
+                    <div className="relative">
+                      <button
+                        onClick={handleCopyDestinations}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        className="p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 group"
+                        aria-label="Copy destinations list"
+                      >
+                        {isCopied ? (
+                          <div className="flex items-center gap-1">
+                            <Check className="w-5 h-5 text-green-500" />
+                            <span className="text-sm text-green-500">Copied!</span>
+                          </div>
+                        ) : (
+                          <>
+                            <Copy className="w-5 h-5 text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-200" />
+                            <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                              Copy list
+                            </span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
                   <div className="space-y-3" ref={scrollContainerRef}>
                     {likedCards.map((card, index) => (
                       <motion.div
