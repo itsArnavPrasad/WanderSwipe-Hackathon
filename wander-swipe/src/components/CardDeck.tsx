@@ -52,7 +52,7 @@ export const CardDeck: React.FC<CardDeckProps> = ({ destinations }) => {
             // Calculate stack effect properties
             const stackProps = {
               zIndex: 10 - index,
-              opacity: isTop ? 1 : 1 - index * 0.1,
+              opacity: 1,
               scale: 1 - index * 0.05,
               y: index * 10,
               rotate: randomRotation,
