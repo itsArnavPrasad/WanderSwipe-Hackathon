@@ -14,7 +14,7 @@ interface DestinationCardProps {
 export const DestinationCard = ({ destination, onVote }: DestinationCardProps) => {
   const [exitX, setExitX] = React.useState<number>(0);
   const [isSwipeEnabled, setIsSwipeEnabled] = React.useState(true);
-  const { addLikedCard } = useDestinations();
+  const { addLikedCard, showStatsPanel } = useDestinations();
   const cardRef = React.useRef<HTMLDivElement>(null);
   const { play: playLikeSound } = useSound('/sounds/swipe-right.mp3');
   const { play: playDislikeSound } = useSound('/sounds/swipe-left.mp3');
@@ -29,7 +29,7 @@ export const DestinationCard = ({ destination, onVote }: DestinationCardProps) =
   const rotate = useTransform(x, [-300, 300], [-45, 45]);
   const opacity = useTransform(x, [-300, -200, 0, 200, 300], [0, 1, 1, 1, 0]);
   
-  const handleDragEnd = (event: any, info: any) => {
+  const handleDragEnd = (event: MouseEvent | PointerEvent | TouchEvent, info: { offset: { x: number } }) => {
     if (!isSwipeEnabled) return;
     
     if (info.offset.x > 150) {
@@ -78,7 +78,8 @@ export const DestinationCard = ({ destination, onVote }: DestinationCardProps) =
   // Keyboard navigation
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!isSwipeEnabled) return;
+      // Disable swiping if the panel or expanded card is open
+      if (!isSwipeEnabled || showStatsPanel) return;
       
       if (e.key === 'ArrowRight') {
         setExitX(300);
@@ -98,7 +99,7 @@ export const DestinationCard = ({ destination, onVote }: DestinationCardProps) =
     
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [destination, addLikedCard, onVote, playLikeSound, playDislikeSound, isSwipeEnabled]);
+  }, [destination, addLikedCard, onVote, playLikeSound, playDislikeSound, isSwipeEnabled, showStatsPanel]);
   
   return (
     <motion.div
