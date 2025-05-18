@@ -4,6 +4,7 @@ import { Tag } from './Tag';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Heart, ChevronRight, XCircle } from 'lucide-react';
+import { useSound } from '../hooks/useSound';
 
 // Helper function to manage body scroll
 const toggleBodyScroll = (disable: boolean) => {
@@ -16,6 +17,7 @@ const toggleBodyScroll = (disable: boolean) => {
 
 export const StatsPanel = () => {
   const { likedCards, tagCounts, showStatsPanel, toggleStatsPanel, removeLikedCard } = useDestinations();
+  const { play } = useSound('/sounds/button-click.mp3', 0.05);
   const panelRef = React.useRef<HTMLDivElement>(null);
   const [expandedCard, setExpandedCard] = React.useState<string | null>(null);
 
@@ -66,8 +68,33 @@ export const StatsPanel = () => {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5);
 
-  const handleCardClick = (cardId: string) => {
-    setExpandedCard(expandedCard === cardId ? null : cardId);
+  const handleCardClick = (e: React.MouseEvent, cardId: string) => {
+    e.stopPropagation();
+    play();
+    setExpandedCard(cardId);
+  };
+
+  const handlePanelToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    play();
+    toggleStatsPanel();
+  };
+
+  const handleCardRemove = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    play();
+    removeLikedCard(id);
+  };
+
+  const handleExpandedCardClose = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    play();
+    setExpandedCard(null);
+  };
+
+  const handleExpandedOverlayClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedCard(null);
   };
 
   return (
@@ -100,10 +127,7 @@ export const StatsPanel = () => {
               <div className="flex justify-between items-center">
                 <h2 className="heading-text font-bold text-xl">Your Travel Board</h2>
                 <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleStatsPanel();
-                  }}
+                  onClick={handlePanelToggle}
                   className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                   aria-label="Close panel"
                 >
@@ -159,7 +183,7 @@ export const StatsPanel = () => {
                           'hover:border-gray-300 dark:hover:border-gray-600 transition-colors duration-300',
                           'hover:shadow-md'
                         )}
-                        onClick={() => setExpandedCard(card.id)}
+                        onClick={(e) => handleCardClick(e, card.id)}
                       >
                         <div className="flex items-start cursor-pointer">
                           <div 
@@ -177,10 +201,7 @@ export const StatsPanel = () => {
                                 </p>
                               </div>
                               <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  removeLikedCard(card.id);
-                                }}
+                                onClick={(e) => handleCardRemove(e, card.id)}
                                 className="opacity-0 group-hover:opacity-100 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
                                 aria-label={`Remove ${card.name} from liked destinations`}
                               >
@@ -208,10 +229,7 @@ export const StatsPanel = () => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.15 }}
                   className="fixed inset-0 z-60 bg-black/60 backdrop-blur-sm"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setExpandedCard(null);
-                  }}
+                  onClick={handleExpandedOverlayClick}
                 />
                 <motion.div
                   key="expanded-card"
@@ -247,10 +265,7 @@ export const StatsPanel = () => {
                           <p className="body-text text-sm text-gray-100 max-w-md text-shadow-sm">{card.description}</p>
                         </div>
                         <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setExpandedCard(null);
-                          }}
+                          onClick={handleExpandedCardClose}
                           className="absolute top-4 right-4 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors"
                         >
                           <X className="w-5 h-5 text-white" />
@@ -266,10 +281,7 @@ export const StatsPanel = () => {
       ) : (
         <motion.button
           key="toggle-button"
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleStatsPanel();
-          }}
+          onClick={handlePanelToggle}
           className={cn(
             'fixed top-1/2 -translate-y-1/2 right-[-8px] z-50 w-[56px] h-20',
             'rounded-l-xl bg-white dark:bg-gray-800 shadow-lg flex items-center justify-center',

@@ -1,15 +1,21 @@
-
 import React from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { Moon, Sun } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useSound } from '../hooks/useSound';
 
 export const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
+  const { play } = useSound('/sounds/button-click.mp3', 0.05);
+  
+  const handleClick = () => {
+    play();
+    toggleTheme();
+  };
   
   return (
     <motion.button 
-      onClick={toggleTheme}
+      onClick={handleClick}
       className="fixed top-4 left-4 z-50 p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300"
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
