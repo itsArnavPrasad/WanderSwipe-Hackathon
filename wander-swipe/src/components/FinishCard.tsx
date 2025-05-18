@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useDestinations } from '../contexts/DestinationContext';
 import { motion } from 'framer-motion';
@@ -40,6 +39,12 @@ export const FinishCard: React.FC<{ onReset: () => void }> = ({ onReset }) => {
               ? `You've liked ${likedCards.length} destination${likedCards.length > 1 ? 's' : ''}. Your travel personality is shining through!` 
               : "You haven't liked any destinations yet. Ready to discover places that match your style?"}
           </p>
+          
+          {likedCards.length > 0 && (
+            <p className="body-text text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-md">
+              Open the side panel to view all your liked destinations.
+            </p>
+          )}
           
           {likedCards.length > 0 && topTags.length > 0 && (
             <div className="mb-8">
