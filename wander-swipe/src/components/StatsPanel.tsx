@@ -31,18 +31,26 @@ export const StatsPanel = () => {
   // Handle escape key
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && showStatsPanel) {
-        toggleStatsPanel();
+      if (event.key === 'Escape') {
+        // If expanded card is open, close it first
+        if (expandedCard) {
+          setExpandedCard(null);
+          setCurrentCardIndex(null);
+        } 
+        // Only close the panel if there's no expanded card
+        else if (showStatsPanel) {
+          toggleStatsPanel();
+        }
       }
     };
 
-    if (showStatsPanel) {
+    if (showStatsPanel || expandedCard) {
       document.addEventListener('keydown', handleKeyDown);
       return () => {
         document.removeEventListener('keydown', handleKeyDown);
       };
     }
-  }, [showStatsPanel, toggleStatsPanel]);
+  }, [showStatsPanel, toggleStatsPanel, expandedCard]);
 
   // Handle clicks outside the panel
   React.useEffect(() => {
@@ -267,17 +275,19 @@ export const StatsPanel = () => {
                   {currentCardIndex !== null && currentCardIndex > 0 && (
                     <button
                       onClick={handlePreviousCard}
-                      className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 transition-colors p-2 rounded-full"
+                      className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/40 transition-all duration-200 p-2 rounded-lg backdrop-blur-sm shadow-lg z-50"
+                      aria-label="Previous destination"
                     >
-                      <ChevronLeft className="w-6 h-6 text-white" />
+                      <ChevronLeft className="w-6 h-6 text-white drop-shadow-lg" />
                     </button>
                   )}
                   {currentCardIndex !== null && currentCardIndex < likedCards.length - 1 && (
                     <button
                       onClick={handleNextCard}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 transition-colors p-2 rounded-full"
+                      className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/40 transition-all duration-200 p-2 rounded-lg backdrop-blur-sm shadow-lg z-50"
+                      aria-label="Next destination"
                     >
-                      <ChevronRight className="w-6 h-6 text-white" />
+                      <ChevronRight className="w-6 h-6 text-white drop-shadow-lg" />
                     </button>
                   )}
 
