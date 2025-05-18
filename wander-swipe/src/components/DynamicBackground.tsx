@@ -87,7 +87,7 @@ export const DynamicBackground: React.FC<{ children: React.ReactNode }> = ({ chi
       <div 
         className="absolute inset-0 bg-center bg-no-repeat pointer-events-none"
         style={{
-          backgroundImage: 'url(/bg-wonders-line.png)',
+          backgroundImage: 'url(/bg-wonders-line-b.png)',
           backgroundColor: wondersColor,
           transition: 'background-color 1.5s ease, opacity 1.5s ease',
           opacity: theme === 'dark' ? 0.7 : 0.4,
